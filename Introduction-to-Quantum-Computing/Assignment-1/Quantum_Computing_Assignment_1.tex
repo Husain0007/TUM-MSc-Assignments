@@ -1,0 +1,379 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[spanish,es-lcroman]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[scale=0.75]{geometry}
+\usepackage{braket}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{enumitem} % -> Alphabetical Lists
+\usepackage{amsmath} % -> Matrices
+\usepackage{fullpage} % -> A4 Full Page
+\usepackage{amssymb} % -> Therefore
+\usepackage{tabstackengine}
+\usepackage{amsfonts}
+
+\title{Quantum Computing Assignment 1 - Group 18}
+\author{
+    Rallabhandi, Anand Krishna 
+    \and
+    Mustafa, Syed Husain
+    \and
+     , Mohammed Kamran 
+}
+\date{9th November 2020}
+
+\begin{document}
+
+
+\maketitle
+
+\section*{Exercise 1.1}
+
+ (Bloch sphere and single qubit quantum gates)
+
+\begin{enumerate}[label=(\alph*)]
+    \item $|\psi\rangle = e^{i\gamma}[ \cos(\frac{\theta}{2})|o\rangle +       e^{i\phi}\sin(\frac{\theta}{2})|1\rangle ] $
+          \\~\\
+          $|\psi\rangle =i[\frac{1}{2}|0\rangle + \frac{\sqrt{3}}{2}i|1\rangle ]$
+          \\~\\
+          $e^{i\gamma} = i$ This implies $\gamma = \frac{\pi}{2}$
+          \\~\\
+          $\cos(\frac{\theta}{2}) = \frac{1}{2}$ This implies $\theta = \frac{2\pi}{3}$
+          \\~\\
+          $e^{i\phi}\sin(\frac{\theta}{2}) = \frac{\sqrt{3}}{2}i$ This implies $\phi = \frac{\pi}{2}$
+
+    \item \vspace{5mm}
+          \begin{flushleft}
+              Rotation operation about Pauli X Matrix is given by
+          \end{flushleft}
+
+          \[R_{X}(\theta) := e^{\frac{-i\theta X}{2}} = \cos{\frac{\theta}{2}}{I} - i\sin{\frac{\theta}{2}}X\]
+          Based on the above
+          \[R_{x}(\frac{2\pi}{3}) = \cos{\frac{\pi}{3}}I - i\sin{\frac{\pi}{3}}X = \setstackgap{L}{1.1\baselineskip}
+              \fixTABwidth{T}
+              \parenMatrixstack{
+                  \frac{1}{2}\hspace{2mm} & 0\\
+                  0\hspace{2mm} & \frac{1}{2}
+              }_{ 2 \times 2} -\hspace{3mm} \frac{\sqrt{3}i}{2}
+              \setstackgap{L}{1.1\baselineskip}
+              \fixTABwidth{T}
+              \parenMatrixstack{
+                  0\hspace{2mm} & 1\\
+                  1\hspace{2mm} & 0
+              }_{2 \times 2}  = \begin{pmatrix}
+                  \frac{1}{2}\hspace{2mm}         & -\frac{\sqrt{3}}{2}i \\
+                  -\frac{\sqrt{3}}{2}\hspace{2mm} & \frac{1}{2}
+              \end{pmatrix}_{2 \times 2} \hspace{3mm} \textbf{(A)}\]
+          \vspace{5mm}
+          \begin{flushleft}
+              Given $\ket{\phi} = \begin{pmatrix}
+                      \frac{1}{2} \\
+                      \frac{\sqrt{3}}{2}i
+                  \end{pmatrix}_{2 \times 1} \hspace{5mm} \textbf{(B)}$
+          \end{flushleft}
+
+          \vspace{3mm} \textbf{(A)} times \textbf{(B)} gives, $\begin{pmatrix}
+                  \frac{1}{2}\hspace{2mm}         & -\frac{\sqrt{3}}{2}i \\
+                  -\frac{\sqrt{3}}{2}\hspace{2mm} & \frac{1}{2}
+              \end{pmatrix}_{2 \times 2} \begin{pmatrix}
+                  \frac{1}{2} \\
+                  \frac{\sqrt{3}}{2}i
+              \end{pmatrix}_{2 \times 1}  = \frac{1}{4} \begin{pmatrix}
+                  1 \hspace{2mm}          & 3         \\
+                  -\sqrt{3}i \hspace{2mm} & \sqrt{3}i
+              \end{pmatrix}_{2 \times 1}$
+          \vspace{5mm}
+
+    \item
+          Since the Hadamard gate ($H$) is a Unitary Matrix
+          It can be represented as follows
+
+          $U = e^{i\alpha}R_{x}(\beta)R_{y}(\gamma)R_{z}(\delta)$
+
+          Simplifying the above equations through Matrix Multiplication we get the following
+
+          $U = \begin{pmatrix}
+                  e^{i(\alpha - \beta / 2 - \delta /  2)}\cos{\gamma / 2} & -e^{i(\alpha - \beta / 2 + \delta /  2)}\sin{\gamma / 2} \\
+                  e^{i(\alpha + \beta / 2 - \delta /  2)}\sin{\gamma / 2} & e^{i(\alpha + \beta / 2 + \delta /  2)}\cos{\gamma / 2}
+              \end{pmatrix}$
+
+          The Hadamard gate is defined as
+
+          $H = \frac{1}{\sqrt{2}}
+              \begin{pmatrix}
+                  1 & 1  \\
+                  1 & -1
+              \end{pmatrix}$
+
+          Since \emph{H} and \emph{U} represent the same matrix, we equate element wise and arrive at
+
+          $e^{i(\alpha - \beta / 2 - \delta /  2)}\cos{\gamma / 2} = \frac{1}{\sqrt{2}}$ \hfill(1)\\
+          $-e^{i(\alpha - \beta / 2 + \delta /  2)}\sin{\gamma / 2} = \frac{1}{\sqrt{2}}$ \hfill(2)\\
+          $e^{i(\alpha + \beta / 2 - \delta /  2)}\sin{\gamma / 2} = \frac{1}{\sqrt{2}}$ \hfill(3)\\
+          $e^{i(\alpha + \beta / 2 + \delta /  2)}\cos{\gamma / 2} = -\frac{1}{\sqrt{2}}$ \hfill(4)
+
+          From the above equations it can be inferred that $\gamma = \pi / 2$
+
+          Simplifying (1)-(4) we arrive at
+
+          $e^{i(\alpha - \beta / 2 - \delta /  2)} = 1$ \hfill(5)\\
+          $e^{i(\alpha - \beta / 2 + \delta /  2)} = -1$ \hfill(6)\\
+          $e^{i(\alpha + \beta / 2 - \delta /  2)} = 1$ \hfill(7)\\
+          $e^{i(\alpha + \beta / 2 + \delta /  2)} = -1$ \hfill(8)
+
+          From (5),(7) using $e^{i0} = 1$
+
+          $\alpha - \beta / 2 - \delta /  2 = 0$\\
+          $\alpha + \beta / 2 - \delta /  2 = 0$
+
+          From (6),(8) using $e^{i\pi} = -1$
+
+
+          $\alpha - \beta / 2 + \delta /  2 = \pi$\\
+          $\alpha + \beta / 2 + \delta /  2 = \pi$
+
+
+          On solving the above equations we get
+
+          $\alpha = \pi / 2, \beta = 0, \delta = \pi$
+
+          $\therefore H = e^{i\pi / 2}R_{x}(0)R_{y}(\pi / 2)R_{z}(\pi)$
+
+
+\end{enumerate}
+
+\section*{Exercise 1.2}
+
+ (Multiple qubits and tensor products)
+
+\begin{enumerate}[label=(\alph*)]
+    \item
+          Y =
+          $\begin{pmatrix}
+                  0 & -i \\
+                  i & 0
+              \end{pmatrix}$
+          Z =
+          $\begin{pmatrix}
+                  1 & 0  \\
+                  0 & -1
+              \end{pmatrix}$
+          %   \begin{align*}
+
+          %   \end{align*}
+
+          Y \otimes Z
+          = \begin{pmatrix}
+              y_{11}Z & y_{12}Z \\
+              y_{21}Z & y_{22}Z
+          \end{pmatrix}
+
+
+          &=
+          \begin{pmatrix}
+              y_{11} $\begin{pmatrix}
+                      1 & 0  \\
+                      0 & -1
+                  \end{pmatrix}$    & y_{12}    $\begin{pmatrix}
+                      1 & 0  \\
+                      0 & -1
+                  \end{pmatrix}$ \\
+              y_{21}    $\begin{pmatrix}
+                      1 & 0  \\
+                      0 & -1
+                  \end{pmatrix}$ & y_{22}    $\begin{pmatrix}
+                      1 & 0  \\
+                      0 & -1
+                  \end{pmatrix}$
+          \end{pmatrix}\\
+          %\linebreak
+          &=
+          \begin{pmatrix}
+              0 $\begin{pmatrix}
+                      1 & 0  \\
+                      0 & -1
+                  \end{pmatrix}$    & -i    $\begin{pmatrix}
+                      1 & 0  \\
+                      0 & -1
+                  \end{pmatrix}$ \\
+              i    $\begin{pmatrix}
+                      1 & 0  \\
+                      0 & -1
+                  \end{pmatrix}$ & 0    $\begin{pmatrix}
+                      1 & 0  \\
+                      0 & -1
+                  \end{pmatrix}$
+          \end{pmatrix}\\
+          %\linebreak
+          &=
+          \begin{pmatrix}
+              0 & 0  & -i & 0 \\
+              0 & 0  & 0  & i \\
+              i & 0  & 0  & 0 \\
+              0 & -i & 0  & 0 \\
+          \end{pmatrix}\\
+          \end{align*}
+
+    \item (b) Code to Compute Kronecker Product of Pauli Y and Z
+
+          \begin{lstlisting}
+        import numpy as np
+        
+        # Pauli Y
+        Y = np.array([[0, -np.complex(0,1)], [np.complex(0,1), 0]])
+        # Pauli Z
+        Z = np.array([[1, 0], [0, -1]])
+        
+        # Computing the Kronecker product
+        kron_YZ = np.kron(Y, Z)
+        print(kron_YZ)
+        \end{lstlisting}
+          \hspace{10mm}Output
+          \begin{lstlisting}
+        [[ 0.+0.j  0.+0.j  0.-1.j  0.-0.j]
+         [ 0.+0.j -0.+0.j  0.-0.j  0.+1.j]
+         [ 0.+1.j  0.+0.j  0.+0.j  0.+0.j]
+         [ 0.+0.j -0.-1.j  0.+0.j -0.+0.j]]
+        \end{lstlisting}
+
+          % \item To verify (Y \otimes Z)(
+    \item
+          \vspace{5mm}
+          \begin{flushleft}
+              (c) \hspace{3mm}Evaluating $ (Y \otimes Z)(\ket{v} \otimes \ket{w})$
+          \end{flushleft}
+
+          \[
+              Given, \hspace{5mm} v = \begin{pmatrix}
+                  \frac{3}{5} \\
+                  \frac{4}{5}
+              \end{pmatrix}_{2 \times 1} \hspace{5mm} and \hspace{5mm} \text{w = } \begin{pmatrix}
+                  0 \\
+                  1
+              \end{pmatrix}_{2 \times 1}\]
+          \vspace{5mm} Performing Kronecker Product according to Eqn(3),
+          \[
+              (v \otimes \hspace{0.5mm} w) = \begin{pmatrix}
+                  \frac{3}{5} \\
+                  \frac{4}{5}
+              \end{pmatrix}_{2 \times 1} \otimes \hspace{4mm} \begin{pmatrix}
+                  0 \\
+                  1
+              \end{pmatrix}_{2 \times 1}  =  \begin{pmatrix}
+                  0           \\
+                  \frac{3}{5} \\
+                  0           \\
+                  \frac{4}{5}
+              \end{pmatrix}_{4 \times 1}
+          \]
+
+          From Q1(a) we know,
+          \vspace{5mm}
+          \[
+              \setstackgap{L}{1.1\baselineskip}
+              \fixTABwidth{T}
+              (Y \otimes \hspace{0.5mm} Z) = \parenMatrixstack{
+                  0 & 0 & -i & 0\\
+                  0 & 0 & 0 & i \\
+                  i & 0 & 0 & 0 \\
+                  0 & -i & 0 & 0
+              }_{ 4 \times 4}
+          \]
+
+          \vspace{5mm}
+          \[
+              (Y \otimes \hspace{0.5mm} Z)(v \otimes \hspace{0.5mm} w) =
+              \setstackgap{L}{1.1\baselineskip}
+              \fixTABwidth{T}
+              \parenMatrixstack{
+                  0 & 0 & -i & 0\\
+                  0 & 0 & 0 & i \\
+                  i & 0 & 0 & 0 \\
+                  0 & -i & 0 & 0
+              }_{ 4 \times 4} \hspace{3mm} \begin{pmatrix}
+                  0           \\
+                  \frac{3}{5} \\
+                  0           \\
+                  \frac{4}{5}
+              \end{pmatrix}_{2 \times 1} = \begin{pmatrix}
+                  0            \\
+                  \frac{4}{5}i \\
+                  0            \\
+                  -\frac{3}{5}i
+              \end{pmatrix}_{4 \times 1}
+              \hspace{7mm} \textbf{(A)}
+          \]
+
+          Evaluating $(Y \ket{v}) \otimes (Z \ket{w})$
+
+          \vspace{5mm}
+
+          \[
+              Y\ket{v} = \setstackgap{L}{1.1\baselineskip}
+              \fixTABwidth{T}
+              \parenMatrixstack{
+                  0 & -i\\
+                  i & 0
+              }_{2 \times 2} \begin{pmatrix}
+                  \frac{3}{5} \\
+                  \frac{4}{5}
+              \end{pmatrix}_{2 \times 1} =     \begin{pmatrix}
+                  -\frac{4}{5}i \\
+                  \frac{3}{5}i
+              \end{pmatrix}_{2 \times 1}
+          \]
+          \vspace{5mm}
+          \[
+              Z\ket{w} = \setstackgap{L}{1.1\baselineskip}
+              \fixTABwidth{T}
+              \parenMatrixstack{
+                  1 & 0\\
+                  0 & -1
+              }_{2 \times 2} \begin{pmatrix}
+                  0 \\
+                  1
+              \end{pmatrix}_{2 \times 1} =     \begin{pmatrix}
+                  0 \\
+                  -1
+              \end{pmatrix}_{2 \times 1}
+          \]
+          \vspace{5mm}
+          \[ (Y \ket{v}) \otimes (Z \ket{w}) =  \begin{pmatrix}
+                  -\frac{4}{5}i \\
+                  \frac{3}{5}i
+              \end{pmatrix}_{2 \times 1} \otimes \hspace{4mm} \begin{pmatrix}
+                  0 \\
+                  -1
+              \end{pmatrix}_{2 \times 1} = \begin{pmatrix}
+                  0            \\
+                  \frac{4}{5}i \\
+                  0            \\
+                  -\frac{3}{5}i
+              \end{pmatrix}_{4 \times 1}
+              \hspace{7mm} \textbf{(B)}\]
+
+
+          \vspace{0.5cm}
+
+          \begin{center}
+              \emph{As \textbf{(A)} \& \textbf{(B)} are equal. Hence the results are in agreement.}
+          \end{center}
+
+    \item
+          \vspace{10mm}\begin{flushleft}
+              (d)\hspace{3mm}Let $ |v\rangle = \begin{pmatrix} a \\ b\end{pmatrix}$ and $ |w\rangle = \begin{pmatrix} c \\ d\end{pmatrix}$
+              \\~\\
+              $|v\rangle \otimes |w\rangle = ( ac , ad , bc , bd )^T $
+              \\~\\
+              $ ac=1/\sqrt{2}, bd=1, ad=0, bc=1/\sqrt{2} $
+              \\~\\
+              On solving we get $a/b = 0 , ac=1/\sqrt{2}$
+              \\~\\
+              This implies a=0. But this is not possible since $ac=1/\sqrt{2}$.
+              \\~\\
+              Thus there does not exist any value of a,b,c,d
+          \end{flushleft}
+
+\end{enumerate}
+
+\end{document}
