@@ -1,0 +1,495 @@
+\documentclass[a4paper, 12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amsfonts,amssymb,fixltx2e}
+\usepackage{fullpage}
+\usepackage{braket}
+\usepackage{tikz}
+\usetikzlibrary{quantikz}
+
+\title{\fontfamily{lmss}\selectfont{Introduction to Quantum Computing \linebreak Assignment 3 - Group 18\\
+}}
+\author{
+    Rallabhandi, Anand Krishna 
+    \and
+    Mustafa, Syed Husain
+    \and
+     , Mohammed Kamran 
+}
+\date{November 2020}
+
+\begin{document}
+
+\maketitle
+
+\section*{Ex 3.1 Basis Transformation and Measurement}
+    \section*{\small(a)}
+
+
+\hspace{13mm}We need to show that,
+\begin{equation}
+|\SI{\pm}\rangle = \frac{1}{\sqrt{2}}(|0\rangle \SI{\pm} |1\rangle) 
+\end{equation}
+\hspace{20mm}is orthogonal, this implies we need to prove that \\
+
+\begin{gather*}
+\langle  + | + \rangle = 1, \langle  - | - \rangle = 1,  \langle + | -\rangle = 0 \\~\\
+\langle  + | + \rangle = \langle + \rangle ^\intercal \langle + \rangle
+= \frac{1}{\sqrt{2}}(|0\rangle + |1\rangle)^\intercal * \frac{1}{\sqrt{2}}(|0\rangle + |1\rangle)
+= \frac{1}{2}\begin{bmatrix}
+1 &  1\\
+\end{bmatrix}
+\begin{bmatrix}
+1\\
+1
+\end{bmatrix}
+= 1
+\\~\\
+\langle  - | - \rangle = \langle - \rangle ^\intercal \langle - \rangle
+= \frac{1}{\sqrt{2}}(|0\rangle + |1\rangle)^\intercal * \frac{1}{\sqrt{2}}(|0\rangle - |1\rangle)
+= \frac{1}{2}\begin{bmatrix}
+1 & -1\\
+\end{bmatrix}
+\begin{bmatrix}
+1\\
+-1
+\end{bmatrix}
+= 1
+\\~\\
+\langle  + | - \rangle = \langle + \rangle ^\intercal \langle - \rangle
+= \frac{1}{\sqrt{2}}(|0\rangle + |1\rangle)^\intercal * \frac{1}{\sqrt{2}}(|0\rangle - |1\rangle)
+= \frac{1}{2}\begin{bmatrix}
+1 & 1\\
+\end{bmatrix}
+\begin{bmatrix}
+1\\
+-1
+\end{bmatrix}
+= 0
+\\ 
+\end{gather*}
+\\~\\
+\section*{\small(b)}
+\begin{gather*}
+    |\psi\rangle = \frac{i}{\sqrt{2}}|0\rangle + \frac{1}{\sqrt{2}}|1\rangle\\~\\
+    |U_1\rangle = \frac{3}{5}|0\rangle + \frac{4i}{5}|1\rangle\\~\\
+    |U_2\rangle = \frac{4}{5}|0\rangle - \frac{3i}{5}|1\rangle\\
+    \frac{5}{3} * |U_1\rangle + \frac{4}{5} * |U_2\rangle = \frac{25}{12}i|1\rangle, \hspace{0.5cm}i|1\rangle = \frac{4}{5}|U_1\rangle - \frac{3}{5}|U_2\rangle\\~\\
+    \frac{5}{4} * |U_1\rangle + \frac{5}{3} * |U_2\rangle = \frac{25}{12}|0\rangle,  \hspace{0.5cm}|0\rangle = \frac{3}{5}|U_1\rangle + \frac{4}{5}|U_2\rangle \\~\\
+|\psi\rangle = -(\frac{i}{5\sqrt{2}})|U_1\rangle +  (\frac{7i}{5\sqrt{2}})|U_2\rangle\\~\\
+P_1 = |\frac{i}{5\sqrt{2}}^2| = \frac{1}{50}, \hspace{0.5cm}
+P_2 = |\frac{7i}{5\sqrt{2}}|^2 = \frac{49}{50}
+\end{gather*}
+\section*{\small(c)}
+\[CNOT-INV = \begin{bmatrix}
+1 & 0 & 0 & 0 \\
+0 & 0 & 0 & 1 \\
+0 & 0 & 1 & 0 \\
+0 & 1 & 0 & 0 
+\end{bmatrix}\]
+\\
+\hspace{20mm}\vspace{3mm}The left hand side of the diagram equation is $(H \otimes H)( CNOT-INV )(H \otimes H)$
+\begin{gather*}
+\hspace{20mm}(H \otimes H)( CNOT-INV )(H \otimes H) \linebreak
+    
+    \[ =\frac{1}{4}\begin{bmatrix}
+1 & 1 & 1 & 1 \\
+1 & -1 & 1 & -1 \\
+1 & 1 & -1 & -1 \\
+1 & -1 & -1 & 1 
+\end{bmatrix}   
+\begin{bmatrix}
+1 & 0 & 0 & 0 \\
+0 & 0 & 0 & 1 \\
+0 & 0 & 1 & 0 \\
+0 & 1 & 0 & 0 
+\end{bmatrix}
+\begin{bmatrix}
+1 & 1 & 1 & 1 \\
+1 & -1 & 1 & -1 \\
+1 & 1 & -1 & -1 \\
+1 & -1 & -1 & 1 
+\end{bmatrix}\\\]
+\[=\frac{1}{4}\begin{bmatrix}
+4 & 0 & 0 & 0 \\
+0 & 4 & 0 & 0 \\
+0 & 0 & 0 & 4 \\
+0 & 0 & 4 & 0
+\end{bmatrix}  
+= CNOT\]
+\hspace{20mm}Hence the following circuits are equivalent
+\[
+    \begin{quantikz}[column sep=0.3cm]
+        &\gate{H} & \targ{}  & \gate{H}\qw\\
+        &\gate{H} & \ctrl{-1} & \gate{H} &\qw
+    \end{quantikz}\hspace{4mm}=
+    \begin{quantikz}[column sep=0.3cm]
+        & \ctrl{1} & \qw \\
+        &\targ{} & \qw
+    \end{quantikz}
+\]
+\vspace{5mm}
+\hspace{18mm}Using the equivalent CNOT circuit to derive the following relations \\
+
+\[\begin{quantikz}
+    & \gate{H}\slice{$\ket{\psi_{1}}$} &\qw & \targ{}\slice{$\ket{\psi_{2}}$} &\qw & \gate{H}\slice{$\ket{\psi_{3}}$} & \qw \\
+    & \gate{H} &\qw & \ctrl{-1} &\qw & \gate{H} & \qw 
+    \end{quantikz}
+\]
+For $\ket{+}\ket{+}\xrightarrow{\text{CNOT}}\ket{+}\ket{+}$
+\[\ket{\psi_{1}} = (H\ket{+}) \otimes (H\ket{+}) \xrightarrow{\text{}}\ket{0} \ket{0} \hspace{10mm}(\hspace{2mm}From \hspace{2mm}Hint\hspace{2mm})\]
+\[\hspace{5mm}\ket{\psi_{2}} =(CNOT-INV)(\ket{\psi_{1}}) \xrightarrow{\text{}} {\text{}}\ket{0}\ket{0} \hspace{5mm}(\hspace{2mm}Target \hspace{2mm}Qubit \hspace{2mm} is\hspace{2mm}0\hspace{2mm})\]
+\[\ket{\psi_{3}} = (H\ket{0}) \otimes (H\ket{0}) \xrightarrow{\text{}}\ket{+} \ket{+} \hspace{10mm}(\hspace{2mm}From \hspace{2mm}Hint\hspace{2mm})\]
+\\
+For $\ket{-}\ket{+}\xrightarrow{\text{CNOT}}\ket{-}\ket{+}$
+\[\ket{\psi_{1}} = (H\ket{-}) \otimes (H\ket{+}) \xrightarrow{\text{}}\ket{1} \ket{0} \hspace{10mm}(\hspace{2mm}From \hspace{2mm}Hint\hspace{2mm})\]
+\[\hspace{5mm}\ket{\psi_{2}} =(CNOT-INV)(\ket{\psi_{1}}) \xrightarrow{\text{}} {\text{}}\ket{1}\ket{0} \hspace{5mm}(\hspace{2mm}Target \hspace{2mm}Qubit \hspace{2mm} is\hspace{2mm}0\hspace{2mm})\]
+\[\ket{\psi_{3}} = (H\ket{1}) \otimes (H\ket{0}) \xrightarrow{\text{}}\ket{-} \ket{+} \hspace{10mm}(\hspace{2mm}From \hspace{2mm}Hint\hspace{2mm})\]
+
+For $\ket{+}\ket{-}\xrightarrow{\text{CNOT}}\ket{-}\ket{-}$
+\[\ket{\psi_{1}} = (H\ket{+}) \otimes (H\ket{-}) \xrightarrow{\text{}}\ket{0} \ket{1} \hspace{10mm}(\hspace{2mm}From \hspace{2mm}Hint\hspace{2mm})\]
+\[\hspace{5mm}\ket{\psi_{2}} =(CNOT-INV)(\ket{\psi_{1}}) = (CNOT-INV\ket{0}) \otimes \ket{1}\xrightarrow{\text{}} {\text{}}\ket{1}\ket{1} \hspace{5mm}(\hspace{2mm}Target \hspace{2mm}Qubit \hspace{2mm} is\hspace{2mm}1\hspace{2mm})\]
+\[\ket{\psi_{3}} = (H\ket{1}) \otimes (H\ket{1}) \xrightarrow{\text{}}\ket{-} \ket{-} \hspace{10mm}(\hspace{2mm}From \hspace{2mm}Hint\hspace{2mm})\]
+
+For $\ket{-}\ket{-}\xrightarrow{\text{CNOT}}\ket{+}\ket{-}$
+\[\ket{\psi_{1}} = (H\ket{-}) \otimes (H\ket{-}) \xrightarrow{\text{}}\ket{1} \ket{1} \hspace{10mm}(\hspace{2mm}From \hspace{2mm}Hint\hspace{2mm})\]
+\[\hspace{5mm}\ket{\psi_{2}} =(CNOT-INV)(\ket{\psi_{1}}) = (CNOT-INV\ket{1}) \otimes \ket{1}\xrightarrow{\text{}} {\text{}}\ket{0}\ket{1} \hspace{5mm}(\hspace{2mm}Target \hspace{2mm}Qubit \hspace{2mm} is\hspace{2mm}1\hspace{2mm})\]
+\[\ket{\psi_{3}} = (H\ket{0}) \otimes (H\ket{1}) \xrightarrow{\text{}}\ket{+} \ket{-} \hspace{10mm}(\hspace{2mm}From \hspace{2mm}Hint\hspace{2mm})\]
+\end{gather*}
+
+\section*{Ex 3.2 The Stern-Gerlach Experiment}
+    \section*{\small(a)}
+    \begin{flushleft}
+        For a square matrix \textbf{A} the Eigen Values and Eigen Vector satisfy: \[Av = \lambda v \hspace{25mm} \textbf{(1)}\]
+    \linebreak\hspace{10mm}Where  \textbf{v} represents the Eigen Vectors and $\boldsymbol{\lambda}$ represents the Eigen Values.
+    \linebreak \\
+    Assuming there exists a non zero Eigen Vector we first solve for $\boldsymbol{\lambda}$ with the determinant \[|A - \lambda I| = 0 \hspace{17mm} \textbf{(2)}\]
+    For Pauli-X Matrix :
+
+    \[\bigg|\begin{pmatrix}
+        0 & 1  \\
+        1 & 0  \\
+    \end{pmatrix} - \lambda \begin{pmatrix}
+        1 & 0 \\
+        0 & 1 \\
+    \end{pmatrix} \bigg| = 0 \]
+
+    \[\bigg|\begin{pmatrix}
+        -\lambda & 1  \\
+        1 & -\lambda  \\
+    \end{pmatrix} \bigg| = 0 \]
+    \[\lambda^{2} - 1 = 0 \implies \lambda = \pm 1\]
+    Substitute $\lambda$ = 1 in \textbf{(1)}
+    \[\begin{pmatrix}
+        0 & 1  \\
+        1 & 0  \\
+    \end{pmatrix} \begin{pmatrix}
+        x  \\
+        y  \\
+    \end{pmatrix} = \begin{pmatrix}
+        x  \\
+        y  \\
+    \end{pmatrix}\]
+    \begin{center}
+        $\implies$ The Eigen Vector is a non-zero multiple of \emph{y=x}\\
+    $\implies \begin{pmatrix}
+        1 \\
+        1
+    \end{pmatrix}$ is a possible eigen vector for $\lambda = +1$
+    \end{center}
+    Similarly, for $\lambda = -1$
+    \[\begin{pmatrix}
+        0 & 1  \\
+        1 & 0  \\
+    \end{pmatrix} \begin{pmatrix}
+        x  \\
+        y  \\
+    \end{pmatrix} = -\begin{pmatrix}
+        x  \\
+        y  \\
+    \end{pmatrix}\]
+    \begin{center}
+        $\implies$ The Eigen Vector is a non-zero multiple of \emph{y= - x}\\
+    $\implies \begin{pmatrix}
+        1 \\
+        -1
+    \end{pmatrix}$ is a possible eigen vector for $\lambda = -1$
+\end{center}
+$\therefore$ Resultant normalized Eigen Vectors for Pauli-X Matrix are
+\[\frac{1}{\sqrt{2}}\begin{pmatrix}
+    1 \\
+    1
+\end{pmatrix}\hspace{5mm} \& \hspace{5mm}
+\frac{1}{\sqrt{2}}\begin{pmatrix}
+    1 \\
+    -1
+\end{pmatrix}\]
+\\
+Similarly, for Pauli-Y Matrix:
+\[\bigg|\begin{pmatrix}
+    0 & -i  \\
+    i & 0  \\
+\end{pmatrix} - \lambda \begin{pmatrix}
+    1 & 0 \\
+    0 & 1 \\
+\end{pmatrix} \bigg| = 0 \]
+\[\implies \lambda = \pm 1\]
+Substituting $\lambda = \pm 1$ in \textbf{(1)} $\implies$ normalized Eigen Vectors for Pauli-Y Matrix are \[\frac{1}{\sqrt{2}}\begin{pmatrix}
+    1 \\
+    i \\
+\end{pmatrix}\hspace{5mm} \& \hspace{5mm}
+\frac{1}{\sqrt{2}}\begin{pmatrix}
+    1 \\
+    -i \\
+\end{pmatrix}\]
+
+Similarly, for Pauli-Z Matrix:
+\[\bigg|\begin{pmatrix}
+    1 & 0  \\
+    0 & -1  \\
+\end{pmatrix} - \lambda \begin{pmatrix}
+    1 & 0 \\
+    0 & 1 \\
+\end{pmatrix} \bigg| = 0 \]
+\[\implies \lambda = \pm 1\]
+Substituting $\lambda = \pm 1$ in \textbf{(1)} $\implies$ normalized Eigen Vectors for Pauli-Z Matrix are \[\begin{pmatrix}
+    1 \\
+    0 \\
+\end{pmatrix}\hspace{5mm} \& \hspace{4mm}
+\begin{pmatrix}
+    0 \\
+    1 \\
+\end{pmatrix}\]
+\end{flushleft}
+
+\section*{\small(b)}
+\begin{flushleft}
+    $\ket{\psi}$ = $\ket{0}$ (Given)\\~\\
+Using Pauli-X Eigen Vectors as orthonormal basis\[u_{1} = \frac{1}{\sqrt{2}}\begin{pmatrix}
+    1 \\
+    1 \\
+\end{pmatrix}=\ket{+}\hspace{5mm} \& \hspace{5mm}u_{2}=\frac{1}{\sqrt{2}}\begin{pmatrix}
+    1 \\
+    -1 \\
+\end{pmatrix}=\ket{-}\] \\
+Calculating Measurement Operator w.r.t computational basis \{$+,-$\}
+% \underbrace{x}_\text{real} 
+\[M_{+} := \ket{+}\bra{+} =\frac{1}{\sqrt{2}}\begin{pmatrix}
+    1 \\
+    1 \\
+\end{pmatrix} \frac{1}{\sqrt{2}}\begin{pmatrix}
+    1 & 1\\
+    
+\end{pmatrix} = \frac{1}{2}\begin{pmatrix}
+    1 & 1\\
+    1 & 1\\
+\end{pmatrix}\]
+\[M_{-} := \ket{-}\bra{-} =\frac{1}{\sqrt{2}}\begin{pmatrix}
+    1 \\
+    -1 \\
+\end{pmatrix} \frac{1}{\sqrt{2}}\begin{pmatrix}
+    1 & -1\\
+    
+\end{pmatrix} = \frac{1}{2}\begin{pmatrix}
+    1 & -1\\
+    -1 & 1\\
+\end{pmatrix}\]
+\[p(+)=\bra{0}M_{+}^{\dagger}M_{+}\ket{0} = \begin{pmatrix}
+    1 & 0\\
+\end{pmatrix} \frac{1}{2} \begin{pmatrix}
+    1 & 1 \\
+    1 & 1 \\
+\end{pmatrix} \begin{pmatrix}
+    1 \\
+    0 \\
+\end{pmatrix} = \frac{1}{2} = 50\%\]
+
+\[p(-)=\bra{0}M_{-}^{\dagger}M_{-}\ket{0} = \begin{pmatrix}
+    1 & 0\\
+\end{pmatrix} \frac{1}{2} \begin{pmatrix}
+    1 & -1 \\
+    -1 & 1 \\
+\end{pmatrix} \begin{pmatrix}
+    1 \\
+    0 \\
+\end{pmatrix} = \frac{1}{2} = 50\%\] \\~\\
+State after measurement corresponds to \[\frac{M_{m} \ket{\psi}}{\|M_{m} \ket{\psi}\|}\]
+\[\implies \frac{M_{+} \ket{0}}{\|M_{+} \ket{0}\|} = \frac{\frac{1}{2} \begin{pmatrix}
+    1 & 1\\
+    1 & 1\\
+\end{pmatrix} \begin{pmatrix}
+    1 \\
+    0 \\
+\end{pmatrix}}{\Big\|\frac{1}{2} \begin{pmatrix}
+    1 & 1\\
+    1 & 1\\
+\end{pmatrix} \begin{pmatrix}
+    1 \\
+    0 \\
+\end{pmatrix}\Big\|}  = \frac{\frac{1}{2}\begin{pmatrix}
+    1 \\
+    1\\
+\end{pmatrix}}{\frac{1}{\sqrt{2}}} = \frac{1}{\sqrt{2}}\Big( \ket{0} +\ket{1} \Big) = \ket{+}\]
+
+\[\implies \frac{M_{-} \ket{0}}{\|M_{-} \ket{0}\|} = \frac{\frac{1}{2} \begin{pmatrix}
+    1 & -1\\
+    -1 & 1\\
+\end{pmatrix} \begin{pmatrix}
+    1 \\
+    0 \\
+\end{pmatrix}}{\Big\|\frac{1}{2} \begin{pmatrix}
+     1 & -1 \\
+    -1 &  1 \\
+\end{pmatrix} \begin{pmatrix}
+    1 \\
+    0 \\
+\end{pmatrix}\Big\|}  = \frac{\frac{1}{2}\begin{pmatrix}
+    1 \\
+    -1\\
+\end{pmatrix}}{\frac{1}{\sqrt{2}}} = \frac{1}{\sqrt{2}}\Big( \ket{0} -\ket{1} \Big)=\ket{-}\]\\~\\ 
+
+\begin{center}$\therefore$ The computed probabilities and output states are consistent w.r.t. the outputs of the non-uniform magnet applied in the X-direction \end{center}
+
+\end{flushleft}
+
+\section*{\small(c)}
+\begin{flushleft}
+
+ \underline{In Schematic Diagram 3}: When electrons in $\ket{+}$ superposition-state are passed through a non-uniform magnetic field along the Z-direction it is observed that 50\% of the electrons deflect up onto the metal-screen, i.e.; demonstrating a positive-spin ($\ket{0}$), while 50\% deflect downward, demonstrating a negative spin ($\ket{1}$). \\~\\
+ These results can be verified numerically as follows: \\~\\
+ $\ket{\psi}$ = $\ket{+}$ (Given)\\~\\
+Using Pauli-Z Eigen Vectors as orthonormal basis\[u_{1} = \begin{pmatrix}
+    1 \\
+    0 \\
+\end{pmatrix}=\ket{0}\hspace{5mm} \& \hspace{5mm}u_{2}=\begin{pmatrix}
+    0 \\
+    1 \\
+\end{pmatrix}=\ket{1}\] \\
+Calculating Measurement Operator w.r.t computational basis \{$u_{1},u_{2}$\}
+% \underbrace{x}_\text{real} 
+\[M_{0} := \ket{0}\bra{0} =\begin{pmatrix}
+    1 \\
+    0 \\
+\end{pmatrix}\begin{pmatrix}
+    1 & 0\\
+    
+\end{pmatrix} = \begin{pmatrix}
+    1 & 0\\
+    0 & 0\\
+\end{pmatrix}\]
+\[M_{1} := \ket{1}\bra{1} =\begin{pmatrix}
+    0 \\
+    1 \\
+\end{pmatrix} \begin{pmatrix}
+    0 & 1\\
+    
+\end{pmatrix} = \begin{pmatrix}
+    0 & 0\\
+    0 & 1\\
+\end{pmatrix}\]
+
+\[p(0)=\bra{+}M_{0}^{\dagger}M_{0}\ket{+} = \frac{1}{\sqrt{2}}\begin{pmatrix}
+    1 & 1\\
+\end{pmatrix} \begin{pmatrix}
+    1 & 0 \\
+    0 & 0 \\
+\end{pmatrix} \frac{1}{\sqrt{2}} \begin{pmatrix}
+    1 \\
+    1 \\
+\end{pmatrix} = \frac{1}{2} = 50\%\]
+
+\[p(1)=\bra{+}M_{1}^{\dagger}M_{1}\ket{+} = \frac{1}{\sqrt{2}}\begin{pmatrix}
+    1 & 1\\
+\end{pmatrix} \begin{pmatrix}
+    0 & 0 \\
+    0 & 1 \\
+\end{pmatrix} \frac{1}{\sqrt{2}}\begin{pmatrix}
+    1 \\
+    1 \\
+\end{pmatrix} = \frac{1}{2} = 50\%\]
+
+State after measurement corresponds to \[\frac{M_{m} \ket{\psi}}{\|M_{m} \ket{\psi}\|}\]
+\[\implies \frac{M_{0} \ket{+}}{\|M_{0} \ket{+}\|} = \frac{ \begin{pmatrix}
+    1 & 0\\
+    0 & 0\\
+\end{pmatrix} \frac{1}{\sqrt{2}}\begin{pmatrix}
+    1 \\
+    1 \\
+\end{pmatrix}}{\Big\| \begin{pmatrix}
+    1 & 0\\
+    0 & 0\\
+\end{pmatrix} \frac{1}{\sqrt{2}}\begin{pmatrix}
+    1 \\
+    1 \\
+\end{pmatrix}\Big\|}  = \begin{pmatrix}
+    1 \\
+    0\\
+\end{pmatrix} =\ket{0}\]
+
+\[\implies \frac{M_{1} \ket{+}}{\|M_{1} \ket{+}\|} = \frac{ \begin{pmatrix}
+    0 & 0\\
+    0 & 1\\
+\end{pmatrix} \frac{1}{\sqrt{2}}\begin{pmatrix}
+    1 \\
+    1 \\
+\end{pmatrix}}{\Big\| \begin{pmatrix}
+    0 & 0\\
+    0 & 1\\
+\end{pmatrix} \frac{1}{\sqrt{2}}\begin{pmatrix}
+    1 \\
+    1 \\
+\end{pmatrix}\Big\|}  = \begin{pmatrix}
+    0 \\
+    1 \\
+\end{pmatrix} =\ket{1}\]\\~\\
+
+\underline{In Schematic Diagram 3}: Orienting the last magnetic field along the x-direction from z-direction.
+$\ket{\psi}$ = $\ket{+}$ (Given)\\~\\
+
+\[M_{+} = \frac{1}{2}\begin{pmatrix}
+    1 & 1\\
+    1 & 1\\
+\end{pmatrix} \hspace{5mm} \& \hspace{5mm} M_{-}=\frac{1}{2}\begin{pmatrix}
+    1 & -1\\
+    -1 & 1\\
+\end{pmatrix}\]
+
+\[p(+)=\bra{+}M_{+}^{\dagger}M_{+}\ket{+} = \frac{1}{\sqrt{2}}\begin{pmatrix}
+    1 & 1\\
+\end{pmatrix} \frac{1}{2}\begin{pmatrix}
+    1 & 1 \\
+    1 & 1 \\
+\end{pmatrix} \frac{1}{\sqrt{2}} \begin{pmatrix}
+    1 \\
+    1 \\
+\end{pmatrix} = 1 = 100\%\]
+
+\[p(-)=\bra{+}M_{-}^{\dagger}M_{-}\ket{+} = \frac{1}{\sqrt{2}}\begin{pmatrix}
+    1 & 1\\
+\end{pmatrix} \frac{1}{2}\begin{pmatrix}
+    1 & -1 \\
+    -1 & 1 \\
+\end{pmatrix} \frac{1}{\sqrt{2}} \begin{pmatrix}
+    1 \\
+    1 \\
+\end{pmatrix} = 0\%\]
+
+State after measurement corresponds to
+\[\implies \frac{M_{+} \ket{+}}{\|M_{+} \ket{+}\|} = \frac{ \frac{1}{2}\begin{pmatrix}
+    1 & 1\\
+    1 & 1\\
+\end{pmatrix} \frac{1}{\sqrt{2}}\begin{pmatrix}
+    1 \\
+    1 \\
+\end{pmatrix}}{\Big\| \frac{1}{2}\begin{pmatrix}
+    1 & 1\\
+    1 & 1\\
+\end{pmatrix} \frac{1}{\sqrt{2}}\begin{pmatrix}
+    1 \\
+    1 \\
+\end{pmatrix}\Big\|}  = \frac{1}{\sqrt{2}}\begin{pmatrix}
+    1 \\
+    1 \\
+\end{pmatrix} =\ket{+}\]
+\end{flushleft}
+
+\end{document}
