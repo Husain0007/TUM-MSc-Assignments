@@ -1,0 +1,378 @@
+
+\documentclass[a4paper,12pt]{article}
+\usepackage{enumitem} % -> Alphabetical Lists
+\usepackage{amsmath} % -> Matrices
+\usepackage{fullpage} % -> A4 Full Page
+\usepackage{amssymb} % -> Therefore
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{adjustbox}
+\usepackage{listings}
+\usepackage{braket}
+\usepackage{geometry}
+\usepackage{tikz}
+\usetikzlibrary{quantikz}
+
+\graphicspath{ {./} }
+
+\geometry{
+    a4paper,
+    total={170mm,257mm},
+    left=20mm,
+    top=20mm,
+}
+
+\title{Quantum Computing Assignment 4 - Group 18}
+\author{
+    Rallabhandi, Anand Krishna 
+    \and
+    Mustafa, Syed Husain
+    \and
+     , Mohammed Kamran 
+}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section*{Exercise 4.1}
+
+ (Bell states and superdense coding)
+
+\begin{enumerate}[label=(\alph*)]
+    \item
+    \[\begin{quantikz}[column sep = 0.5cm]
+        \lstick{$\ket{0}$}& \gate{H} & \ctrl{1} &\qw \\
+        \lstick{$\ket{0}$}& \qw      &\targ{}   &\qw
+    \end{quantikz} \vspace{2mm} \Bigg\} \ket{\psi} \]
+\linebreak
+The Hadamard Gate transforms the top qubit into a superposition state, this then acts as a control input to the CNOT Gate. The target get's inverted only when control is 1.
+In general the outputs of the given circuit, ie; Hadamard Gate followed by CNOT with a 2 qubit input, are known as \textbf{Bell States}. They are given by
+\[\ket{\beta}_{ab} = \frac{\ket{0, b}+(-1)^{a}\ket{1,\overline{b}}}{\sqrt{2}}\]
+
+Thus for $\ket{00}$, \[\ket{\beta_{00}} = \frac{\ket{0, 0}+(-1)^{0}\ket{1,\overline{0}}}{\sqrt{2}} = \frac{1}{\sqrt{2}}\Big(\ket{00}+ \ket{11}\Big)\] \\~\\
+
+This can be shown as follows for ab=00
+\[H\ket{0} = \frac{1}{\sqrt{2}}\begin{pmatrix}1 & 1  \\
+        1 & -1\end{pmatrix}_{2 \times 2} \begin{pmatrix}1 \\
+        0\end{pmatrix}_{2 \times 1} = \frac{1}{\sqrt{2}}\begin{pmatrix}1 \\
+        1\end{pmatrix}_{2 \times 1} = \frac{1}{\sqrt{2}}( {\ket{0} + \ket{1}})\]
+        \[\Big(\frac{1}{\sqrt{2}}(\ket{0}+\ket{1})\Big)\ket{0}\xrightarrow{\text{CNOT}}\frac{1}{\sqrt{2}}\Big(\ket{00}+ \ket{11}\Big) = \ket{\beta_{00}}\] \\~\\
+Similarly consider ab=01
+\[H\ket{0} = \frac{1}{\sqrt{2}}\begin{pmatrix}1 & 1  \\
+    1 & -1\end{pmatrix}_{2 \times 2} \begin{pmatrix}1 \\
+    0\end{pmatrix}_{2 \times 1} = \frac{1}{\sqrt{2}}\begin{pmatrix}1 \\
+    1\end{pmatrix}_{2 \times 1} = \frac{1}{\sqrt{2}}( {\ket{0} + \ket{1}})\]
+
+
+
+\[\Big(\frac{1}{\sqrt{2}}(\ket{0}+\ket{1})\Big)\ket{1}\xrightarrow{\text{CNOT}}\frac{1}{\sqrt{2}}\Big(\ket{01}+ \ket{10}\Big) = \ket{\beta_{01}}\] \\~\\
+
+Consider ab=10
+\[H\ket{1} = \frac{1}{\sqrt{2}}\begin{pmatrix}1 & 1  \\
+    1 & -1\end{pmatrix}_{2 \times 2} \begin{pmatrix}0 \\
+    1\end{pmatrix}_{2 \times 1} = \frac{1}{\sqrt{2}}\begin{pmatrix}1 \\
+    -1\end{pmatrix}_{2 \times 1} = \frac{1}{\sqrt{2}}( {\ket{0} - \ket{1}})\]
+
+
+
+\[\Big(\frac{1}{\sqrt{2}}(\ket{0}-\ket{1})\Big)\ket{0}\xrightarrow{\text{CNOT}}\frac{1}{\sqrt{2}}\Big(\ket{00}- \ket{11}\Big) = \ket{\beta_{10}}\] \\~\\
+
+Finally consider ab=11
+
+\[H\ket{1} = \frac{1}{\sqrt{2}}\begin{pmatrix}1 & 1  \\
+    1 & -1\end{pmatrix}_{2 \times 2} \begin{pmatrix}0 \\
+    1\end{pmatrix}_{2 \times 1} = \frac{1}{\sqrt{2}}\begin{pmatrix}1 \\
+    -1\end{pmatrix}_{2 \times 1} = \frac{1}{\sqrt{2}}( {\ket{0} - \ket{1}})\]
+
+
+\[\Big(\frac{1}{\sqrt{2}}(\ket{0}-\ket{1})\Big)\ket{1}\xrightarrow{\text{CNOT}}\frac{1}{\sqrt{2}}\Big(\ket{01}- \ket{10}\Big) = \ket{\beta_{11}}\] \\~\\
+\begin{center}
+    Hence Verified\\~\\
+\end{center}
+
+    \item   \phantom{1}\\~\\
+    Alice and Bob share a pair of qubits entangled in the state $\beta_{00}$. \\~\\
+    Where \[\frac{1}{\sqrt{2}}\Big(\ket{00}+ \ket{11}\Big) = \ket{\beta_{00}}\]
+    \[\frac{1}{\sqrt{2}}\Big(\ket{00} + \ket{10}\Big) = \ket{\beta_{01}}\]
+    \[\frac{1}{\sqrt{2}}\Big(\ket{00}- \ket{11}\Big) = \ket{\beta_{10}}\]
+    \[\frac{1}{\sqrt{2}}\Big(\ket{01}- \ket{10}\Big) = \ket{\beta_{11}}\] \\~\\
+    To transmit the classical bits 00.
+    We perform the following action, i.e; do nothing.
+    \[(I \otimes I)\ket{\beta_{00}} = \frac{1}{\sqrt{2}} \underbrace{\begin{pmatrix}
+        1 & 0 & 0 & 0 \\
+        0 & 1 & 0 & 0 \\
+        0 & 0 & 1 & 0 \\
+        0 & 0 & 0 & 1 \\
+    \end{pmatrix}}_{I \otimes I} \underbrace{\begin{pmatrix}
+        1 \\
+        0 \\
+        0 \\
+        1 \\
+    \end{pmatrix}}_{\ket{0} \otimes \ket{0} + \ket{1} \otimes \ket{1} = \ket{00} +\ket{11}} = \frac{1}{\sqrt{2}}\begin{pmatrix}
+        1 \\
+        0 \\
+        0 \\
+        1 \\
+    \end{pmatrix}  = \ket{\beta_{00}}\]
+
+    To transmit 01 we apply X on Alice's qubit 
+    \[(X \otimes I)\ket{\beta_{00}} = \frac{1}{\sqrt{2}} \underbrace{\begin{pmatrix}
+        0 & 0 & 1 & 0 \\
+        0 & 0 & 0 & 1 \\
+        1 & 0 & 0 & 0 \\
+        0 & 1 & 0 & 0 \\
+    \end{pmatrix}}_{X \otimes I} \underbrace{\begin{pmatrix}
+        1 \\
+        0 \\
+        0 \\
+        1 \\
+    \end{pmatrix}}_{\ket{0} \otimes \ket{0} + \ket{1} \otimes \ket{1} = \ket{00} +\ket{11}} = \frac{1}{\sqrt{2}}\begin{pmatrix}
+        0 \\
+        1 \\
+        1 \\
+        0 \\
+    \end{pmatrix}  = \ket{\beta_{01}}\]
+    To transmit 10 we apply Z on Alice's qubit 
+    \[(Z \otimes I)\ket{\beta_{00}} = \frac{1}{\sqrt{2}} \underbrace{\begin{pmatrix}
+        1 & \phantom{-}0 & \phantom{-}0 & \phantom{-}0 \\
+        0 & \phantom{-}1 & \phantom{-}0 & \phantom{-}0 \\
+        1 & \phantom{-}0 & -1 & \phantom{-}0 \\
+        0 & \phantom{-}1 & \phantom{-}0 & -1 \\
+    \end{pmatrix}}_{X \otimes I} \underbrace{\begin{pmatrix}
+        1 \\
+        0 \\
+        0 \\
+        1 \\
+    \end{pmatrix}}_{\ket{0} \otimes \ket{0} + \ket{1} \otimes \ket{1} = \ket{00} +\ket{11}} = \frac{1}{\sqrt{2}}\begin{pmatrix}
+        \phantom{-}1\phantom{-} \\
+        \phantom{-}0\phantom{-} \\
+        \phantom{-}0\phantom{-} \\
+        -1\phantom{-} \\
+    \end{pmatrix}  = \ket{\beta_{10}}\]
+
+    To transmit 11 we apply X then Z on Alice's qubit 
+    \[(ZX \otimes I)\ket{\beta_{00}} = \frac{1}{\sqrt{2}} \underbrace{\begin{pmatrix}
+        \phantom{-}1 & \phantom{-}0 & \phantom{-}1 & \phantom{-}0 \\
+        \phantom{-}0 & \phantom{-}0 & \phantom{-}0 & \phantom{-}1 \\
+        -1 & \phantom{-}0 & \phantom{-}0 & \phantom{-}0 \\
+        \phantom{-}0 & -1 & \phantom{-}0 & \phantom{-}0 \\
+    \end{pmatrix}}_{ZX \otimes I} \underbrace{\begin{pmatrix}
+        1 \\
+        0 \\
+        0 \\
+        1 \\
+    \end{pmatrix}}_{\ket{0} \otimes \ket{0} + \ket{1} \otimes \ket{1} = \ket{00} +\ket{11}} = \frac{1}{\sqrt{2}}\begin{pmatrix}
+        \phantom{-}0\phantom{-} \\
+        \phantom{-}1\phantom{-} \\
+        -1\phantom{-} \\
+        \phantom{-}0\phantom{-} \\
+    \end{pmatrix}  = \ket{\beta_{11}}\]\\~\\
+    \begin{center}
+        Hence Verified
+    \end{center}
+
+    \item \phantom{1} \\~\\
+    Consider some arbitrary operator E acting on Alice's qubit. \\
+    Let $E = \ket{M^{\dagger}_{m}}\bra{M^{\dagger}_{m}}$, where $M_{m}$ is a measurement operator, be given by, \[E = \begin{pmatrix}
+        x & y\\
+        z & w \\
+    \end{pmatrix}\] \\~\\
+    For $\bra{\beta_{ab}}E \otimes I \ket{\beta_{ab}}$ consider ab = 00
+    \[\bra{\beta_{00}}E \otimes I \ket{\beta_{00}} = \begin{pmatrix}
+        1 & 0 & 0 & 1
+    \end{pmatrix} \begin{pmatrix}
+        x & 0 & 0 & 0 \\
+        0 & x & 0 & 0 \\
+        0 & 0 & w & 0 \\
+        0 & 0 & 0 & w \\
+    \end{pmatrix} \begin{pmatrix}
+        1 \\
+        0 \\
+        0 \\
+        1 \\
+    \end{pmatrix} = \begin{pmatrix}
+        x & 0 & 0 & w
+    \end{pmatrix} \begin{pmatrix}
+        1 \\
+        0 \\
+        0 \\
+        1 \\
+    \end{pmatrix} = x + w\]
+    
+    For $\bra{\beta_{ab}}E \otimes I \ket{\beta_{ab}}$ consider ab = 01
+    \[\bra{\beta_{01}}E \otimes I \ket{\beta_{01}} = \begin{pmatrix}
+        0 & 1 & 1 & 0
+    \end{pmatrix} \begin{pmatrix}
+        x & 0 & 0 & 0 \\
+        0 & x & 0 & 0 \\
+        0 & 0 & w & 0 \\
+        0 & 0 & 0 & w \\
+    \end{pmatrix} \begin{pmatrix}
+        0 \\
+        1 \\
+        1 \\
+        0 \\
+    \end{pmatrix} = \begin{pmatrix}
+        0 & x & w & 0
+    \end{pmatrix} \begin{pmatrix}
+        0 \\
+        1 \\
+        1 \\
+        0 \\
+    \end{pmatrix} = x + w\] 
+    For $\bra{\beta_{ab}}E \otimes I \ket{\beta_{ab}}$ consider ab = 10
+    \[\bra{\beta_{10}}E \otimes I \ket{\beta_{10}} = \begin{pmatrix}
+        1 & 0 & 0 & -1
+    \end{pmatrix} \begin{pmatrix}
+        x & 0 & 0 & 0 \\
+        0 & x & 0 & 0 \\
+        0 & 0 & w & 0 \\
+        0 & 0 & 0 & w \\
+    \end{pmatrix} \begin{pmatrix}
+        \phantom{-}1\phantom{-} \\
+        \phantom{-}0\phantom{-} \\
+        \phantom{-}0\phantom{-} \\
+        -1\phantom{-} \\
+    \end{pmatrix} = \begin{pmatrix}
+        x & 0 & 0 & -w
+    \end{pmatrix} \begin{pmatrix}
+        \phantom{-}1\phantom{-} \\
+        \phantom{-}0\phantom{-} \\
+        \phantom{-}0\phantom{-} \\
+        -1\phantom{-} \\
+    \end{pmatrix} = x + w\]
+    For $\bra{\beta_{ab}}E \otimes I \ket{\beta_{ab}}$ consider ab = 11
+    \[\bra{\beta_{10}}E \otimes I \ket{\beta_{10}} = \begin{pmatrix}
+        0 & 1 & -1 & 0
+    \end{pmatrix} \begin{pmatrix}
+        x & 0 & 0 & 0 \\
+        0 & x & 0 & 0 \\
+        0 & 0 & w & 0 \\
+        0 & 0 & 0 & w \\
+    \end{pmatrix} \begin{pmatrix}
+        \phantom{-}0\phantom{-} \\
+        \phantom{-}1\phantom{-} \\
+        -1\phantom{-} \\
+        \phantom{-}0\phantom{-} \\
+    \end{pmatrix} = \begin{pmatrix}
+        0 & x & -w & 0
+    \end{pmatrix} \begin{pmatrix}
+        \phantom{-}0\phantom{-} \\
+        \phantom{-}1\phantom{-} \\
+        -1\phantom{-} \\
+        \phantom{-}0\phantom{-} \\
+    \end{pmatrix} = x + w\] \\~\\
+    From the above we can verify that $\bra{\beta_{ab}}E \otimes I \ket{\beta_{ab}}$ for a,b $\epsilon $ \{0,1\} takes the same value for all Bell States.\\~\\
+    If a malicious person, such as Eve were to intercept the transmission from Alice to Bob, she would only be able to extract the single qubit sent by Alice and not obtain any information on the classical bits associated with the operation performed on Alice's qubit. The only way to obtain the classical bits is to by decoding at Bobs end where both their entangled qubits produce the 2 classical bits as a result. 
+    
+
+\end{enumerate}
+
+\section*{Exercise 4.2}
+
+ (Quantum parallelism and the Deutsch-Jozsa algorithm)
+
+\begin{enumerate}[label=(\alph*)]
+    \item \phantom{-} \\
+        Given general equation for the Hadamard gate transform acting on multiple bits.
+        \[H^{\otimes n}\ket{x_{1},...,x_{n}} = \frac{\Sigma_{z_{1},...,z_{n}}(-1)^{x^{1}z^{1}+...+x^{n}z^{n}}\ket{z_{1},...,z_{n}}}{\sqrt{2^{n}}}\]
+        Also denoted as \[H^{\otimes n}\ket{x} = \frac{\Sigma_{z}(-1)^{x.z}\ket{z}}{\sqrt{2^{n}}},\]
+        where x.z is the bitwise inner product of x and z. \\~\\
+        Let's try to verify this result for a few cases.\\
+        If n = 1, we know that \\
+        \[H\ket{0} = \frac{1}{\sqrt{2}}\Big(\ket{0} + \ket{1}\Big) \hspace{5mm}\&\hspace{5mm}H\ket{1} = \frac{1}{\sqrt{2}}\Big(\ket{0} - \ket{1}\Big)\]
+        \begin{center}
+            Which can be formulated as follows
+        \end{center}
+        \[H^{\otimes 1}\ket{0} = \frac{\Sigma_{z}(-1)^{0.z}\ket{z}}{\sqrt{2}} = \frac{(-1)^{0 \times 0}\ket{0}+(-1)^{0 \times 1}\ket{1}}{\sqrt{2}} = \frac{\ket{0}+ \ket{1}}{\sqrt{2}}\]
+        \[H^{\otimes 1}\ket{1} = \frac{\Sigma_{z}(-1)^{1.z}\ket{z}}{\sqrt{2}} = \frac{(-1)^{1 \times 0}\ket{0}+(-1)^{1 \times 1}\ket{1}}{\sqrt{2}} = \frac{\ket{0}- \ket{1}}{\sqrt{2}}\]
+        Checking now for n=2, we get:
+        \[H^{\otimes 2}\ket{00} = \frac{(-1)^{0 \times 0 + 0 \times 0}\ket{00} + (-1)^{0 \times 0 + 0 \times 1}\ket{01} + (-1)^{0 \times 1 + 0 \times 0}\ket{10} (-1)^{0 \times 1 + 0 \times 1}\ket{11}}{\sqrt{2^{2}}}\]
+        \[\implies H^{\otimes 2}\ket{00} = \frac{\ket{00} + \ket{01} + \ket{10} + \ket{11}}{2}\]
+        \[H^{\otimes 2}\ket{10} = \frac{(-1)^{1 \times 0 + 0 \times 0}\ket{00} + (-1)^{1 \times 0 + 0 \times 1}\ket{01} + (-1)^{1 \times 1 + 0 \times 0}\ket{10} (-1)^{1 \times 1 + 0 \times 1}\ket{11}}{\sqrt{2^{2}}}\]
+        \[\implies H^{\otimes 2}\ket{10} = \frac{\ket{00} + \ket{01} - \ket{10} - \ket{11}}{2}\]
+        The above results can be verified by performing the Tensor Products of the two Hadamard Gates and applying it to the 2-qubits state-vector. \\
+        \[(H_{A} \otimes H_{B})(\ket{0}_{A} \otimes \ket{0}_{B}) = \frac{1}{2}\begin{pmatrix}
+            1 & \phantom{-}1 & \phantom{-}1 & \phantom{-}1 \\
+            1 & -1 & \phantom{-}1 & -1 \\
+            1 & \phantom{-}1 & -1 & -1 \\
+            1 & -1 & -1 & \phantom{-}1\\
+        \end{pmatrix}\begin{pmatrix}
+            1 \\
+            0 \\
+            0 \\
+            0 \\
+        \end{pmatrix} = \frac{1}{2} \begin{pmatrix}
+            1 \\
+            1 \\
+            1 \\
+            1 \\
+        \end{pmatrix} {\displaystyle \equiv }	\frac{\ket{00} + \ket{01} + \ket{10} + \ket{11}}{2}\] \\~\\
+        Similarly, \[(H_{A} \otimes H_{B})(\ket{1}_{A} \otimes \ket{0}_{B}) = \frac{1}{2}\begin{pmatrix}
+            \phantom{-} 1 \phantom{-} \\
+            \phantom{-} 1 \phantom{-} \\
+            -1\phantom{-} \\
+            -1\phantom{-} \\
+        \end{pmatrix} {\displaystyle \equiv } \frac{\ket{00} + \ket{01} - \ket{10} - \ket{11}}{2}\]
+
+        Assuming for n = k the below equality holds. 
+        \[H^{\otimes k}\ket{x_{1},...,x_{k}} = \frac{\Sigma_{z_{1},...,z_{k}}(-1)^{x^{1}z^{1}+...+x^{k}z^{k}}\ket{z_{1},...,z_{k}}}{\sqrt{2^{k}}}\] 
+        We try to prove that the equation also holds for n= k+1, \[H^{\otimes k+1}\ket{x_{k+1}} = \frac{\Sigma_{z}(-1)^{x_{k+1}.z_{k+1}}\ket{z_{k+1}}}{\sqrt{2^{k+1}}},\]
+        \[H^{\otimes k}\ket{x_{1},...,x_{k}} \otimes H\ket{x_{k+1}} = \frac{1}{\sqrt{2^{k}}}\sum(-1)^{x^{1}z^{1}+...+x^{k}z^{k}}\ket{z_{1},...,z_{k}} \otimes \frac{1}{\sqrt{2}}\sum (-1)^{x^{k+1}z^{k+1}}\ket{z_{k+1}}\]
+        \[\implies \frac{1}{\sqrt{2^{k+1}}}\Bigg(\sum(-1)^{x^{1}z^{1}+...+x^{k}z^{k}}\ket{z_{1},...,z_{k}} \otimes \Big((-1)^{x^{(k+1).0}}\ket{0} + (-1)^{x^{(k+1).1}}\ket{1} \Big)\Bigg)\]
+        \[\implies \frac{1}{\sqrt{2^{k+1}}}\Bigg(\sum(-1)^{x^{1}z^{1}+...+x^{k}z^{k}.x^{(k+1).0}}\ket{z_{1},...,z_{k},0} + \sum(-1)^{x^{1}z^{1}+...+x^{k}z^{k}.x^{(k+1).1}}\ket{z_{1},...,z_{k},1}\Bigg)\]
+        \[\implies \frac{1}{\sqrt{2^{k+1}}}\sum(-1)^{x^{1}z^{1}+...+x^{k}z^{k}.x^{(k+1)}.z^{(k+1)}}\ket{z_{1},...,z_{k+1}} \hspace{3mm} with\hspace{2mm} z_{k+1} \hspace{1mm} \epsilon\hspace{1mm} \{0,1\}\]  
+        \begin{center}
+            Since $H^{\otimes (k+1)}\ket{z_{1},...z_{k+1}}$ also holds true.\\~\\
+            $\therefore \hspace{3mm}H^{\otimes n}\ket{x_{1},...,x_{n}} = \frac{\Sigma_{z_{1},...,z_{n}}(-1)^{x^{1}z^{1}+...+x^{n}z^{n}}\ket{z_{1},...,z_{n}}}{\sqrt{2^{n}}}\hspace{2mm}$ holds true.\\~\\
+        \end{center} 
+
+    \item \phantom{-} \\
+        \begin{center}
+        \begin{quantikz}
+            \lstick{$\ket{0,...0}$} & \gate{H^{\otimes n}} & \gate[wires=2][2cm]{U_{f}} & \gate{H^{\otimes n}} & \meter{} & \qw\\
+            \lstick{$\ket{1}$}& \gate{H} & \qw & \qw &\qw & \qw \\
+        \end{quantikz}
+    \end{center}
+
+    \begin{center}
+        \begin{quantikz}
+            \lstick{$ \sum\limits_{x \epsilon \{0,1\}^{n}}
+            \frac{\ket{x}}{\sqrt{2^{n}}}$} &  \gate[wires=2][2cm]{U_{f}} &  \qw &  & & &  \lstick{$ \sum\limits_{x \epsilon \{0,1\}^{n}}
+            \frac{\ket{x}}{\sqrt{2^{n}}}$}\\
+            \lstick{$\ket{y}$} & \qw & \qw & & & & \lstick{$\ket{y \oplus f(x)}$} \\
+        \end{quantikz} $\Bigg\} = \ket{\psi_{2}}$
+    \end{center} \phantom{-}
+
+    \[\ket{\psi_{1}} = \sum\limits_{x \epsilon \{0,1\}^{n}}
+    \frac{\ket{x}}{\sqrt{2^{n}}} \frac{\ket{0} - \ket{1}}{2} \hspace{10mm} \big( Given \big)\]
+
+    The Oracle maps the state \[ \sum\limits_{x \epsilon \{0,1\}^{n}}
+    \frac{\ket{x}}{\sqrt{2^{n}}}\ket{y} \mapsto \sum\limits_{x \epsilon \{0,1\}^{n}}
+    \frac{\ket{x}}{\sqrt{2^{n}}}\ket{y\oplus f(x)},  \]
+    where $\oplus$ is addition modulo 2. \\~\\
+    By definition either f(x) = 0 or f(x) =1 thus : 
+    \[f(X)=0 : \hspace{10mm} (X,y) \mapsto (X, y \oplus 0) \hspace{10mm} \Big(\hspace{2mm} X = \sum\limits_{x \epsilon \{0,1\}^{n}}
+    \frac{\ket{x}}{\sqrt{2^{n}}}\hspace{2mm} \Big)
+    \]
+    \[ \implies (X,y) \mapsto (X,y) \hspace{20mm} \textbf{(1)}\] 
+
+    \[f(X)=1 : \hspace{10mm} (X,y) \mapsto (X, y \oplus 1) \hspace{10mm} \phantom{sssssssssssssssssssss}
+    \]
+    \[\implies \Big(X, \frac{1}{\sqrt{2}}(\ket{0}-\ket{1})\Big) \mapsto X \Big( \frac{1}{\sqrt{2}}\big(\ket{0 \oplus 1} - \ket{1 \oplus 1}\big)\Big) \phantom{ssssssss}\]
+    \[\implies \Big(X, \frac{1}{\sqrt{2}}(\ket{0}-\ket{1})\Big) \mapsto \Big(X, \frac{1}{\sqrt{2}}(\ket{1}-\ket{0})\Big) \phantom{ssssssssssss}\]
+    \[\implies (X,y) \mapsto -(X,y) \hspace{16mm} \textbf{(2)}\]
+    By examining results \textbf{(1)} \& \textbf{(2)} we can generalize the equation as follows:\\
+    \[(X,y) \mapsto (-1)^{f(x)}(X,y)\] 
+    \begin{center}
+        $\therefore$ The state obtained after applying $U_{f}$ on $\ket{\psi_{1}}$ is given by, 
+        \[\ket{\psi_{2}} = U_{f}\ket{\psi_{1}} = \sum\limits_{x \epsilon \{0,1\}^{n}}
+        \frac{(-1)^{f(x)}\ket{x}}{\sqrt{2^{n}}} \frac{\ket{0} - \ket{1}}{2}\]
+    \end{center}
+ 
+    
+\end{enumerate}
+
+\end{document}
