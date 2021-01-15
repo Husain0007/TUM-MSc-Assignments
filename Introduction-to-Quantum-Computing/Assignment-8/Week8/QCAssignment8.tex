@@ -1,0 +1,272 @@
+
+\documentclass[a4paper,12pt]{article}
+\usepackage{enumitem} % -> Alphabetical Lists
+\usepackage{amsmath} % -> Matrices
+\usepackage{fullpage} % -> A4 Full Page
+\usepackage{amssymb} % -> Therefore
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{adjustbox}
+\usepackage{listings}
+\usepackage{braket}
+\usepackage{geometry}
+\usepackage{tikz}
+\usepackage{gensymb}
+
+\usetikzlibrary{quantikz}
+
+\graphicspath{ {./} }
+
+\geometry{
+    a4paper,
+    total={175mm,257mm},
+    left=20mm,
+    top=20mm,
+}
+
+\title{Quantum Computing Assignment 8 - Group 18}
+\author{
+    Rallabhandi, Anand Krishna 
+    \and
+    Mustafa, Syed Husain
+    \and
+     , Mohammed Kamran 
+}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section*{Exercise 8.1}
+
+ \begin{large}(\textbf{Decomposition of Controlled-U Gates})
+ \end{large}
+
+\begin{enumerate}[label=(\alph*)]
+\item Consider $X = \begin{pmatrix}
+    0 & 1\\
+    1 & 0 \\
+\end{pmatrix}$, $Y=\begin{pmatrix}
+    0 & -i \\
+    i & 0 \\
+\end{pmatrix}$, \& $Z = \begin{pmatrix}
+    1 & \phantom{-}0 \\
+    0 & -1
+\end{pmatrix}$\\~\\
+\textbf{XYX} = $\begin{pmatrix}
+    0 & 1 \\
+    1 & 0 \\
+\end{pmatrix}\begin{pmatrix}
+    0 & -i \\
+    i & \phantom{-}0 \\
+\end{pmatrix}\begin{pmatrix}
+    0 & 1 \\
+    1 & 0 \\
+\end{pmatrix} = \begin{pmatrix}
+0 & 1\\
+1 & 0 \\
+\end{pmatrix} \begin{pmatrix}
+    -i & 0 \\
+    \phantom{-}0 & i \\
+\end{pmatrix}= \begin{pmatrix}
+    \phantom{-}0 & i \\
+    -i & 0 \\
+\end{pmatrix} = \textbf{-Y}$\\~\\
+\textbf{XZX} = $\begin{pmatrix}
+    0 & 1 \\
+    1 & 0 \\
+\end{pmatrix}\begin{pmatrix}
+    1 & \phantom{-}0 \\
+    0 & -1 \\
+\end{pmatrix}\begin{pmatrix}
+    0 & 1 \\
+    1 & 0 \\
+\end{pmatrix} = \begin{pmatrix}
+    0 & 1\\
+    1 & 0 \\
+\end{pmatrix}\begin{pmatrix}
+    \phantom{-}0 & 1 \\
+    -1 & 0 \\
+\end{pmatrix} = \begin{pmatrix}
+    -1 & 0 \\
+    \phantom{-}0 & 1\\
+\end{pmatrix}= \textbf{-Z}$\\~\\
+\textbf{X$\boldsymbol{R_y(\theta)}$X} = $\begin{pmatrix}
+    0 & 1 \\
+    1 & 0 \\
+\end{pmatrix}\begin{pmatrix}
+    \cos(\frac{\theta}{2}) & -\sin(\frac{\theta}{2}) \\
+    \sin(\frac{\theta}{2}) & \cos(\frac{\theta}{2}) \\
+\end{pmatrix}\begin{pmatrix}
+    0 & 1 \\
+    1 & 0 \\
+\end{pmatrix} = \begin{pmatrix}
+    \cos(\frac{\theta}{2}) & \sin(\frac{\theta}{2}) \\
+    -\sin(\frac{\theta}{2}) & \cos(\frac{\theta}{2})\\
+\end{pmatrix} = \boldsymbol{R_y(-\theta)}$ \\~\\
+\underline{Properties Used} : $\cos(\phi) = \cos(-\phi)$ \& $-\sin(\phi) = \sin(-\phi)$\\~\\
+\textbf{X$\boldsymbol{R_z(\theta)}$X} = $\begin{pmatrix}
+    0 & 1 \\
+    1 & 0 \\
+\end{pmatrix}\begin{pmatrix}
+    e^{\frac{-i\theta}{2}} & 0 \\
+    0 & e^{\frac{i\theta}{2}} \\
+\end{pmatrix}\begin{pmatrix}
+    0 & 1 \\
+    1 & 0 \\
+\end{pmatrix} = \begin{pmatrix}
+    0 & 1 \\
+    1 & 0 \\
+\end{pmatrix}\begin{pmatrix}
+    0 & e^{\frac{-i\theta}{2}} \\
+    e^{\frac{i\theta}{2}} & 0 \\
+\end{pmatrix}= \begin{pmatrix}
+    e^{\frac{i\theta}{2}} & 0 \\
+    0 & e^{\frac{-i\theta}{2}} \\
+\end{pmatrix} = \boldsymbol{R_z(-\theta)}$ \\~\\
+\underline{Properties Used} : $e^{i\phi} = \cos(\phi) + i\sin(\phi)$ \& $e^{-i\phi} = \cos(\phi) - i\sin(\phi)$
+
+
+
+\item \begin{gather*}
+    ABC= R_z(\beta)*R_y(\frac{\gamma}{2})*R_y(\frac{-\gamma}{2})*R_z(\frac{-(\delta + \beta)}{2})*R_z(\frac{(\delta - \beta)}{2})
+    \\~\\
+    R_y(\frac{\gamma}{2})*R_y(\frac{-\gamma}{2}) = I
+    \\~\\
+    ABC= \begin{pmatrix}
+e^\frac{-i\beta}{2} & 0 \\
+0 & e^\frac{i\beta}{2} 
+\end{pmatrix} * \begin{pmatrix}
+e^\frac{i(\delta + \beta)}{4} & 0 \\
+0 & e^\frac{-i(\delta + \beta)}{4} 
+\end{pmatrix}* \begin{pmatrix}
+e^\frac{-i(\delta - \beta)}{4} & 0 \\
+0 & e^\frac{i(\delta - \beta)}{4} 
+\end{pmatrix}\\~\\
+= \begin{pmatrix}
+e^\frac{i(\delta - \beta)}{4} & 0 \\
+0 & e^\frac{-i(\delta - \beta)}{4} 
+\end{pmatrix}* \begin{pmatrix}
+e^\frac{-i(\delta - \beta)}{4} & 0 \\
+0 & e^\frac{i(\delta - \beta)}{4} 
+\end{pmatrix} = I
+\end{gather*}\\~\\
+To prove: $U=e^{i\alpha}AXBXC$\\~\\
+Taking the right-hand side of the equation:\\~\\
+\begin{gather*}
+    e^{i\alpha}[R_z(\beta)*R_y(\frac{\gamma}{2})]* X * R_y(\frac{-\gamma}{2})*R_z(\frac{-(\delta + \beta)}{2}) * X * R_z(\frac{(\delta - \beta)}{2})\\ ~\\
+    = e^{i\alpha}[R_z(\beta)*R_y(\frac{\gamma}{2})]* [X * R_y(\frac{-\gamma}{2})* X] * [ X * R_z(\frac{-(\delta + \beta)}{2}) * X] * R_z(\frac{(\delta - \beta)}{2})\\~\\
+    = e^{i\alpha}[R_z(\beta)*R_y(\frac{\gamma}{2})] * R_y(\frac{\gamma}{2}) * R_z(\frac{(\delta + \beta)}{2}) *
+    R_z(\frac{(\delta - \beta)}{2})\\~\\
+    =e^{i\alpha}[R_z(\beta)*R_y(\frac{\gamma}{2})] * R_y(\frac{\gamma}{2}) *  \begin{pmatrix}
+e^\frac{-i\delta}{2} & 0 \\
+0 & e^\frac{i\delta}{2}
+\end{pmatrix}\\~\\
+=  e^{i\alpha}R_z(\beta) * \begin{pmatrix}
+\cos{\frac{\gamma}{2}} & -\sin{\frac{\gamma}{2}} \\
+\sin{\frac{\gamma}{2}} & \cos{\frac{\gamma}{2}}
+\end{pmatrix}* \begin{pmatrix}
+e^\frac{-i\delta}{2} & 0 \\
+0 & e^\frac{i\delta}{2}
+\end{pmatrix}\\~\\
+=  e^{i\alpha}R_z(\beta)R_y(\gamma)R_z(\delta) =U
+\end{gather*}
+\item On solving the quantum circuit using matrix representation we get,
+\\~\\
+\begin{gather*}
+\begin{pmatrix}
+A & 0 \\
+0 & Ae^{i\alpha}
+\end{pmatrix} * \begin{pmatrix}
+I & 0 \\
+0 & X
+\end{pmatrix} *\begin{pmatrix}
+B & 0 \\
+0 & B
+\end{pmatrix} *\begin{pmatrix}
+I & 0 \\
+0 & X
+\end{pmatrix} *\begin{pmatrix}
+C & 0 \\
+0 & C
+\end{pmatrix}\\~\\
+= \begin{pmatrix}
+A & 0 \\
+0 & AXe^{i\alpha}
+\end{pmatrix}* \begin{pmatrix}
+B & 0 \\
+0 & B
+\end{pmatrix} *\begin{pmatrix}
+I & 0 \\
+0 & X
+\end{pmatrix} *\begin{pmatrix}
+C & 0 \\
+0 & C
+\end{pmatrix}\\~\\
+=
+\begin{pmatrix}
+AB & 0 \\
+0 & AXBe^{i\alpha}
+\end{pmatrix} *\begin{pmatrix}
+I & 0 \\
+0 & X
+\end{pmatrix} *\begin{pmatrix}
+C & 0 \\
+0 & C
+\end{pmatrix}\\~\\
+=\begin{pmatrix}
+AB & 0 \\
+0 & AXBXe^{i\alpha}
+\end{pmatrix} * \begin{pmatrix}
+C & 0 \\
+0 & C
+\end{pmatrix}\\~\\
+= \begin{pmatrix}
+ABC & 0 \\
+0 & e^{i\alpha}AXBXC
+\end{pmatrix}
+\\~\\
+\begin{pmatrix}
+I & 0 \\
+0 & U
+\end{pmatrix} = U-controlled
+\end{gather*}
+\item Any Unitary Operation can be decomposed as follows: \\
+\[U = e^{i\alpha}R_{z}(\beta)R_{y}(\gamma)R_{z}(\delta) = \begin{pmatrix}
+    e^{i(\alpha - \frac{\beta}{2}-\frac{\delta}{2})}\cos(\frac{\gamma}{2}) & -e^{i(\alpha - \frac{\beta}{2}+\frac{\delta}{2})}\sin(\frac{\gamma}{2}) \\
+    e^{i(\alpha + \frac{\beta}{2}-\frac{\delta}{2})}\sin(\frac{\gamma}{2}) & e^{i(\alpha + \frac{\beta}{2}+\frac{\delta}{2})}\cos(\frac{\gamma}{2}) \\
+\end{pmatrix}\]
+Choosing $\beta=\gamma=0$\\
+$\implies U = \begin{pmatrix}
+    e^{i(\alpha - \frac{\delta}{2})} & 0 \\
+    0 & e^{i(\alpha + \frac{\delta}{2})} \\
+\end{pmatrix} \equiv \begin{pmatrix}
+    1 & 0 \\
+    0 & e^{\frac{2\pi i}{2^k}}
+\end{pmatrix} \implies \alpha -\frac{\delta}{2}=0$  \& $\alpha + \frac{\delta}{2} = \frac{2\pi}{2^k} \implies \alpha = \frac{2\pi}{2^{k+1}} $ \& $\delta = \frac{2\pi}{2^k}$\\~\\
+Suppose U is a Unitary Gate on a single qubit. Then there exists unitary operators A, B, \& C on a single qubit such that ABC=I \& $U=e^{i\alpha}AXBXC$, where $\alpha$ is some overall phase vector.\\
+$A = R_z(\beta)R_y(\frac{\gamma}{2}),$ $B = R_y(\frac{-\gamma}{2})R_z(\frac{-(\delta+\beta)}{2}),$ \& $C=R_z(\frac{\delta-\beta}{2})$ \\ 
+$\implies R_k = e^{\frac{2\pi i}{2^{k+1}}}R_z(0)R_y(0)XR_y(0)R_z(\frac{-2\pi}{2^{k+1}})XR_z(\frac{2\pi}{2^{k+1}}) = e^{\frac{2\pi i}{2^{k+1}}}XR_z(\frac{-2\pi}{2^{k+1}})XR_z(\frac{2\pi}{2^{k+1}})$
+\[\begin{quantikz}
+    \lstick{$\ket{q_0}$} & \ctrl{1} & \qw \\
+    \lstick{$\ket{q_1}$} & \gate{R_k} &\qw  \\ 
+\end{quantikz}\equiv\begin{quantikz}
+    \lstick{$\ket{q_0}$} & \qw &\ctrl{1} & \qw& \ctrl{1}  & \gate{\begin{pmatrix}
+        1 & 0 \\
+        0 & e^{\frac{2 \pi i}{2^{k+1}}}
+    \end{pmatrix}} & \qw \\
+    \lstick{$\ket{q_1}$} & \gate{R_z(\frac{2\pi }{2^{k+1}})} &\targ{} & \gate{R_z(\frac{-2\pi }{2^{k+1}})} & \targ{} &\qw &\qw  \\
+\end{quantikz}\]
+
+\end{enumerate} \pagebreak
+\section*{Exercise 8.2}
+
+ \begin{large}(\textbf{Three Qubit Quantum Fourier Transform Implementation}) \\~\\
+    \graphicspath{.}
+    \includegraphics[scale=0.60]{Soln-8.2.png}\\~\\
+   
+
+    
+ \end{large}
+\end{document}
