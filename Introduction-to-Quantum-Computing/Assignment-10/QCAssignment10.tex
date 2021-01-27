@@ -1,0 +1,227 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{enumitem} % -> Alphabetical Lists
+\usepackage{amsmath} % -> Matrices
+\usepackage{fullpage} % -> A4 Full Page
+\usepackage{amssymb} % -> Therefore
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{adjustbox}
+\usepackage{listings}
+\usepackage{braket}
+\usepackage{geometry}
+\usepackage{tikz}
+\usepackage{gensymb}
+\usepackage{dirtytalk}
+\graphicspath{ {./images} }
+
+
+\usetikzlibrary{quantikz}
+
+\graphicspath{ {./} }
+
+\geometry{
+    a4paper,
+    total={175mm,257mm},
+    left=20mm,
+    top=20mm,
+}
+
+\title{Quantum Computing Assignment 10 - Group 18}
+\author{
+    Rallabhandi, Anand Krishna 
+    \and
+    Mustafa, Syed Husain
+    \and
+     , Mohammed Kamran 
+}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section*{Exercise 10.1}
+
+ \begin{large}(\textbf{Reduction of Factoring to Order Finding})
+ \end{large}
+
+\begin{enumerate}[label=(\alph*)]
+\item As per the algorithm for \say{Reduction of Factoring to Order Finding} the first two steps state the following:\\
+\underline{Step-1} : If N is even, return the factor 2. \\
+\underline{Step-2} : Determine whether $N=a^b$ for integers $a\geq 1$ \& $b\geq 2$ (using a classical algorithm) and if so return the factor a. \\~\\
+Given N=221, the first step does not return 2 as N is not even. \\
+$a_{b=2}$: $221^{\frac{1}{2}} = 14.866$,  
+$a_{b=3}$: $221^{\frac{1}{3}} = 6.046$, 
+$a_{b=4}$: $221^{\frac{1}{4}} = 2.943$, 
+$a_{b=5}$: $221^{\frac{1}{5}} = 2.458$, \\
+$a_{b=6}$: $221^{\frac{1}{6}} = 2.162$ \\
+Since none of the values of \say{a} obtained above lie in the set of Integers, hence Step-2 does not return the factor \say{a}. \\~\\
+For Step-3 of the Factoring Algorithm we randomly choose $x=55$, such that $1\leq x\leq N-1$, when $N=221$. \\For Step-4 we compute order \textbf{r} of x modulo N. \\
+$55^0 \equiv$ 1 mod 221,$55^1 \equiv$ 55 mod 221, $55^2 \equiv$ 152 mod 221, $55^3\equiv$ 183 mod 221,\\ $55^4 \equiv$ 120 mod 221, $55^5 \equiv$ 191 mod 221, $55^6 \equiv$ 118 mod 221, $55^7 \equiv$ 81 mod 221,\\ $55^8 \equiv$ 35 mod 221, $55^9 \equiv $ 157 mod 221, $55^{10} \equiv$ 16 mod 221, $55^{11} \equiv$ 217 mod 221, \\\& $55^{12} \equiv$ 1 mod 221 \\
+$\therefore $ Order \textbf{r} of 55 mod 221 is \textbf{12}\\
+\underline{Step-5} : If r is even \& $x^{\frac{r}{2}} \neq -1$ mod N, then compute $gcd(x^{\frac{r}{2}}-1, N)$ and $gcd(x^{\frac{r}{2}}+1, N)$, one of which must be a non-trivial factor, and return this factor; otherwise the algorithm fails. \\~\\
+$55^{\frac{12}{2}} = 55^6 \equiv$ 118 mod 221, hence $55^6 \neq -1$ mod 221. \\
+Computing $gcd(55^6-1, 221)= 13$ \\
+Computing $gcd(55^6+1, 221)= 17$ \\
+$\therefore $ The prime factorization of N=221, is given by $221=13\times 17$ \\
+\item Consider $N=15$ as input to the Order finding subroutine. All composite numbers smaller than 15 are multiples of 2, ie; 4, 6, 8, 10, 12, \& 14. The only odd composite less than 15 is 9. Since $9=3^2$, 15 is the smallest number for which order-finding subroutine is required. \\~\\ 
+\end{enumerate}
+
+\section*{Exercise 10.2}
+
+\begin{large}(\textbf{Quantum Operations \& Amplitude Damping})
+\end{large}
+\begin{enumerate}[label=(\alph*)]
+    \item $\sum\limits_{k \epsilon \{0,1\}}E_{k}^{\dagger}E_{k} = \begin{pmatrix}
+        1 & 0 \\
+        0 & \sqrt{1-\gamma} \\
+    \end{pmatrix}\begin{pmatrix}
+        1 & 0 \\
+        0 & \sqrt{1-\gamma} \\
+    \end{pmatrix} + \begin{pmatrix}
+        0 & 0 \\
+        \sqrt{\gamma} & 0\\
+    \end{pmatrix} \begin{pmatrix}
+        0 & \sqrt{\gamma} \\
+        0 & 0 \\
+    \end{pmatrix}$ \\
+    \phantom{3} \hspace{16mm} $= \begin{pmatrix}
+        1 & 0 \\
+        0 & 1-\gamma \\
+    \end{pmatrix} + \begin{pmatrix}
+        0 & 0 \\
+        0 & \gamma \\
+    \end{pmatrix} = \begin{pmatrix}
+        1 & 0\\
+        0 & 1 \\
+    \end{pmatrix} \equiv I$ \\
+    \begin{center}
+        Hence Proved 
+    \end{center}
+    \item Controlled-$R_y(\theta)$ Gate $\equiv$ $\begin{pmatrix}
+        \phantom{-}1 & \phantom{-}0 & 0 & 0 \\
+        \phantom{-}0 & \phantom{-}1 & 0 & 0 \\
+        \phantom{-}0 & \phantom{-}0 & \cos(\frac{\theta}{2}) & -\sin(\frac{\theta}{2}) \\
+        \phantom{-}0 & \phantom{-}0 & \sin(\frac{\theta}{2}) & \cos(\frac{\theta}{2}) \\
+    \end{pmatrix}$ \\~\\
+    Flipped CNOT GATE $\equiv$ $\begin{pmatrix}
+        1 & 0 & 0 & 0 \\
+        0 & 0 & 0 & 1 \\
+        0 & 0 & 1 & 0 \\
+        0 & 1 & 0 & 0 \\
+    \end{pmatrix}$ \\~\\
+    $U_{AD} = \begin{pmatrix}
+        1 & 0 & 0 & 0 \\
+        0 & 0 & 0 & 1 \\
+        0 & 0 & 1 & 0 \\
+        0 & 1 & 0 & 0 \\
+    \end{pmatrix} \begin{pmatrix}
+        \phantom{-}1 & \phantom{-}0 & 0 & 0 \\
+        \phantom{-}0 & \phantom{-}1 & 0 & 0 \\
+        \phantom{-}0 & \phantom{-}0 & \cos(\frac{\theta}{2}) & -\sin(\frac{\theta}{2}) \\
+        \phantom{-}0 & \phantom{-}0 & \sin(\frac{\theta}{2}) & \cos(\frac{\theta}{2}) \\
+    \end{pmatrix} = \begin{pmatrix}
+        1 & 0 & 0 & 0 \\
+        0 & 0 & \sin(\frac{\theta}{2}) & \cos(\frac{\theta}{2}) \\
+        0 & 0 & \cos(\frac{\theta}{2}) & -\sin(\frac{\theta}{2}) \\
+        0 & 0 & 1 & 0 \\
+    \end{pmatrix}$\\~\\
+\item For $\gamma = \sin^{2}(\frac{\theta}{2})$ 
+\begin{center}
+    $E_0 = \begin{pmatrix}
+        1 & 0 \\
+        0 & \cos(\frac{\theta}{2}) \\
+    \end{pmatrix}$ \& $E_1 = \begin{pmatrix}
+        0 & \sin(\frac{\theta}{2})\\
+        0 & 0 \\
+    \end{pmatrix}$ 
+\end{center}
+For $(E_{0})_{l,m} = \langle l,0| U_{AD} | m,0 \rangle$ : \\
+$(E_0)_{0,0} = \langle 00| U_{AD} | 00 \rangle = \begin{pmatrix}
+    1 & 0 & 0 & 0 \\
+\end{pmatrix} \begin{pmatrix}
+    1 & 0 & 0 & 0 \\
+    0 & 0 & \sin(\frac{\theta}{2}) & \cos(\frac{\theta}{2}) \\
+    0 & 0 & \cos(\frac{\theta}{2}) & -\sin(\frac{\theta}{2}) \\
+    0 & 0 & 1 & 0 \\
+\end{pmatrix} \begin{pmatrix}
+    1 \\ 0 \\0 \\0
+\end{pmatrix} = 1 $ \\
+$(E_0)_{0,1} = \langle 00| U_{AD} | 10 \rangle = \begin{pmatrix}
+    1 & 0 & 0 & 0 \\
+\end{pmatrix} \begin{pmatrix}
+    1 & 0 & 0 & 0 \\
+    0 & 0 & \sin(\frac{\theta}{2}) & \cos(\frac{\theta}{2}) \\
+    0 & 0 & \cos(\frac{\theta}{2}) & -\sin(\frac{\theta}{2}) \\
+    0 & 0 & 1 & 0 \\
+\end{pmatrix} \begin{pmatrix}
+    0 \\ 0 \\1 \\0
+\end{pmatrix} = 0 $ \\
+$(E_0)_{1,0} = \langle 10| U_{AD} | 00 \rangle = \begin{pmatrix}
+    0 & 0 & 1 & 0 \\
+\end{pmatrix} \begin{pmatrix}
+    1 & 0 & 0 & 0 \\
+    0 & 0 & \sin(\frac{\theta}{2}) & \cos(\frac{\theta}{2}) \\
+    0 & 0 & \cos(\frac{\theta}{2}) & -\sin(\frac{\theta}{2}) \\
+    0 & 0 & 1 & 0 \\
+\end{pmatrix} \begin{pmatrix}
+    1 \\ 0 \\0 \\0
+\end{pmatrix} = 0 $ \\
+$(E_0)_{1,1} = \langle 10| U_{AD} | 10 \rangle = \begin{pmatrix}
+    0 & 0 & 1 & 0 \\
+\end{pmatrix} \begin{pmatrix}
+    1 & 0 & 0 & 0 \\
+    0 & 0 & \sin(\frac{\theta}{2}) & \cos(\frac{\theta}{2}) \\
+    0 & 0 & \cos(\frac{\theta}{2}) & -\sin(\frac{\theta}{2}) \\
+    0 & 0 & 1 & 0 \\
+\end{pmatrix} \begin{pmatrix}
+    0 \\ 0 \\1 \\0
+\end{pmatrix} = \cos(\frac{\theta}{2})
+\pagebreak $ \\~\\ 
+For $(E_{1})_{l,m} = \langle l,1| U_{AD} | m,0 \rangle$ : \\
+$(E_1)_{0,0} = \langle 01| U_{AD} | 00 \rangle = \begin{pmatrix}
+    0 & 1 & 0 & 0 \\
+\end{pmatrix} \begin{pmatrix}
+    1 & 0 & 0 & 0 \\
+    0 & 0 & \sin(\frac{\theta}{2}) & \cos(\frac{\theta}{2}) \\
+    0 & 0 & \cos(\frac{\theta}{2}) & -\sin(\frac{\theta}{2}) \\
+    0 & 0 & 1 & 0 \\
+\end{pmatrix} \begin{pmatrix}
+    1 \\ 0 \\0 \\0
+\end{pmatrix} = 0 $ \\
+$(E_1)_{0,1} = \langle 01| U_{AD} | 10 \rangle = \begin{pmatrix}
+    0 & 1 & 0 & 0 \\
+\end{pmatrix} \begin{pmatrix}
+    1 & 0 & 0 & 0 \\
+    0 & 0 & \sin(\frac{\theta}{2}) & \cos(\frac{\theta}{2}) \\
+    0 & 0 & \cos(\frac{\theta}{2}) & -\sin(\frac{\theta}{2}) \\
+    0 & 0 & 1 & 0 \\
+\end{pmatrix} \begin{pmatrix}
+    0 \\ 0 \\1 \\0
+\end{pmatrix} = \sin(\frac{\theta}{2}) $ \\
+$(E_1)_{1,0} = \langle 11| U_{AD} | 00 \rangle = \begin{pmatrix}
+    0 & 0 & 0 & 1 \\
+\end{pmatrix} \begin{pmatrix}
+    1 & 0 & 0 & 0 \\
+    0 & 0 & \sin(\frac{\theta}{2}) & \cos(\frac{\theta}{2}) \\
+    0 & 0 & \cos(\frac{\theta}{2}) & -\sin(\frac{\theta}{2}) \\
+    0 & 0 & 1 & 0 \\
+\end{pmatrix} \begin{pmatrix}
+    1 \\ 0 \\0 \\0
+\end{pmatrix} = 0 $ \\
+$(E_1)_{1,1} = \langle 11| U_{AD} | 10 \rangle = \begin{pmatrix}
+    0 & 0 & 0 & 1 \\
+\end{pmatrix} \begin{pmatrix}
+    1 & 0 & 0 & 0 \\
+    0 & 0 & \sin(\frac{\theta}{2}) & \cos(\frac{\theta}{2}) \\
+    0 & 0 & \cos(\frac{\theta}{2}) & -\sin(\frac{\theta}{2}) \\
+    0 & 0 & 1 & 0 \\
+\end{pmatrix} \begin{pmatrix}
+    0 \\ 0 \\1 \\0
+\end{pmatrix} = 0 $ 
+\begin{center}
+    Values of $(E_0)_{l,m}$ \& $(E_1)_{l,m}$ are in agreement with Eq. (2)
+\end{center}
+
+\end{enumerate}
+\end{document}
