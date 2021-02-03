@@ -1,0 +1,464 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{enumitem} % -> Alphabetical Lists
+\usepackage{amsmath} % -> Matrices
+\usepackage{fullpage} % -> A4 Full Page
+\usepackage{amssymb} % -> Therefore
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{adjustbox}
+\usepackage{listings}
+\usepackage{braket}
+\usepackage{geometry}
+\usepackage{tikz}
+\usepackage{gensymb}
+\usepackage{dirtytalk}
+\graphicspath{ {./images} }
+
+
+\usetikzlibrary{quantikz}
+
+\graphicspath{ {./} }
+
+\geometry{
+    a4paper,
+    total={170mm,257mm},
+    left=20mm,
+    top=20mm,
+}
+
+\title{Quantum Computing Assignment 11 - Group 18}
+\author{
+    Rallabhandi, Anand Krishna 
+    \and
+    Mustafa, Syed Husain
+    \and
+     , Mohammed Kamran 
+}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section*{Exercise 11.1}
+
+ \begin{large}(\textbf{Fidelity of the Amplite Damping Channel})
+ \end{large}
+
+\begin{enumerate}[label=(\alph*)]
+\item The Operator-Sum representation of Amplitute Damping is given by \[\varepsilon_{AD}(\rho) = E_{0}\rho E_{0}^{\dagger} + E_{1}\rho E_{1}^{\dagger} \]
+\[F(\ket{\psi},\varepsilon_{AD}(\ket{\psi}\bra{\psi})) = tr\Big(\sqrt{\bra{\psi}\sum\limits_{k}E_{k}\ket{\psi}\bra{\psi}E_{k}^{\dagger}\ket{\psi}}\Big)\]
+Consider $\ket{\psi}=\begin{pmatrix}
+    \alpha & \beta
+\end{pmatrix}^{T}$, where $E_{0}=\begin{pmatrix}
+    1 & 0 \\
+    0 & \sqrt{1-\gamma} \\
+\end{pmatrix}$ \& $E_{1}= \begin{pmatrix}
+    0 & \sqrt{\gamma} \\
+    0 & 0 \\
+\end{pmatrix}$\\
+$\implies F(\ket{\psi},\varepsilon_{AD}(\ket{\psi}\bra{\psi})) = tr\begin{pmatrix}
+    \sqrt{\underbrace{\bra{\psi}E_{0}\ket{\psi}}_{\text{A}}\underbrace{\bra{\psi}E_{0}^{\dagger}\ket{\psi}}_{\text{B}} + \underbrace{\bra{\psi}E_{1}\ket{\psi}}_{\text{C}}\underbrace{\bra{\psi}E_{1}^{\dagger}\ket{\psi}}_{\text{D}}}
+\end{pmatrix}$ \\
+$\implies A = \begin{pmatrix}
+    \alpha & \beta
+\end{pmatrix}\begin{pmatrix}
+    1 & 0 \\
+    0 & \sqrt{1-\gamma} \\
+\end{pmatrix}\begin{pmatrix}
+    \alpha \\
+    \beta
+\end{pmatrix} = \begin{pmatrix}
+    \alpha & \beta\sqrt{1-\gamma}
+\end{pmatrix}\begin{pmatrix}
+    \alpha \\
+    \beta
+\end{pmatrix} = \begin{pmatrix}
+    \alpha^{2} + \beta^{2}\sqrt{1-\gamma}
+\end{pmatrix}$ \\
+$\implies B = \begin{pmatrix}
+    \alpha & \beta
+\end{pmatrix}\begin{pmatrix}
+    1 & 0 \\
+    0 & \sqrt{1-\gamma} \\
+\end{pmatrix}\begin{pmatrix}
+    \alpha \\
+    \beta
+\end{pmatrix} = \begin{pmatrix}
+    \alpha & \beta\sqrt{1-\gamma}
+\end{pmatrix}\begin{pmatrix}
+    \alpha \\
+    \beta
+\end{pmatrix} = \begin{pmatrix}
+    \alpha^{2} + \beta^{2}\sqrt{1-\gamma}
+\end{pmatrix}$ \\
+$\implies C = \begin{pmatrix}
+    \alpha & \beta
+\end{pmatrix}\begin{pmatrix}
+    0 & \sqrt{\gamma} \\
+    0 & 0 \\
+\end{pmatrix}\begin{pmatrix}
+    \alpha \\
+    \beta
+\end{pmatrix} = \alpha \beta \sqrt{\gamma}$ \hspace{2mm}\& 
+$D = \begin{pmatrix}
+    \alpha & \beta
+\end{pmatrix}\begin{pmatrix}
+    0 & 0 \\
+    \sqrt{\gamma} & 0 \\
+\end{pmatrix}\begin{pmatrix}
+    \alpha \\
+    \beta
+\end{pmatrix} = \alpha \beta \sqrt{\gamma}$
+\begin{center}
+    Since $A=B$ \& $C=D$
+\end{center} $\implies tr\begin{pmatrix}
+    \sqrt{\bra{\psi}E_{0}\ket{\psi}\bra{\psi}E_{0}^{\dagger}\ket{\psi} + \bra{\psi}E_{1}\ket{\psi}\bra{\psi}E_{1}^{\dagger}\ket{\psi}}
+\end{pmatrix} = tr\Big(\sqrt{\sum\limits_{k}|\bra{\psi}E_{k}\ket{\psi}|^{2}}\Big)$ \\~\\
+Solving $F\begin{pmatrix}
+    \ket{\psi}, \varepsilon_{AD}(\ket\psi\bra{\psi})
+\end{pmatrix}$ using $A$, $B$, $C$, \& $D$ \\
+$\implies F\begin{pmatrix}
+    \ket{\psi}, \varepsilon_{AD}(\ket\psi\bra{\psi})
+\end{pmatrix} = tr\begin{pmatrix}
+    \sqrt{\Big(\alpha^{2}+\beta^{2}\sqrt{1-\gamma}\Big)^{2} + {\Big(\alpha \beta\sqrt{\gamma}\Big)}^{2}}
+\end{pmatrix}$ \\
+$\implies F\begin{pmatrix}
+    \ket{\psi}, \varepsilon_{AD}(\ket\psi\bra{\psi})
+\end{pmatrix} = tr\begin{pmatrix}
+    \sqrt{\Big(\alpha^{2}+\beta^{2}\Big)^{2} - \beta^{2}\Big((\alpha^{2}+\beta^{2})\gamma\Big)}
+\end{pmatrix}$ 
+\begin{center}
+    Consider $|\alpha|^{2} = \cos^{2}(\frac{\theta}{2})$ \& $|\beta|^{2} = \sin^{2}(\frac{\theta}{2})$
+\end{center}
+$\implies F\begin{pmatrix}
+    \ket{\psi}, \varepsilon_{AD}(\ket\psi\bra{\psi})
+\end{pmatrix} = tr \begin{pmatrix}
+    \sqrt{1 - \sin^{2}(\frac{\theta}{2})\gamma}
+\end{pmatrix}$ \\
+To minimize $F\begin{pmatrix}
+    \ket{\psi}, \varepsilon_{AD}(\ket\psi\bra{\psi})
+\end{pmatrix}$, $\sin^{2}(\frac{\theta}{2}) \gamma$ should take the maximum value \\
+$\implies F_{min}\begin{pmatrix}
+    \ket{\psi}, \varepsilon_{AD}(\ket\psi\bra{\psi})
+\end{pmatrix} = tr\begin{pmatrix}
+    \sqrt{1-\gamma}
+\end{pmatrix} = \sqrt{1-\gamma}$ \hspace{10mm}$\begin{pmatrix}
+    \because \sin^{2}(\frac{\theta}{2})=1, \theta= n\pi \text{ $\forall$ n $\epsilon$ $\mathbb{Z}-\{0\}$}
+\end{pmatrix}$ \pagebreak
+\end{enumerate}
+
+\section*{Exercise 11.2}
+
+\begin{large}(\textbf{Pauli Group \& Check Matrix})
+\end{large}
+\begin{enumerate}[label=(\alph*)]
+    \item Let us verify for 3 cases
+    \begin{gather*}
+        \alpha = 1, \beta = 2\\
+        \sigma_1\sigma_2 = \begin{pmatrix}
+        0 & 1\\
+        1 & 0
+        \end{pmatrix}\begin{pmatrix}
+        0 & -i\\
+        i & 0
+        \end{pmatrix} = \begin{pmatrix}
+        i & 0\\
+        0 & -i
+        \end{pmatrix}\\
+        \sigma_2\sigma_1 = \begin{pmatrix}
+        0 & -i\\
+        i & 0
+        \end{pmatrix}\begin{pmatrix}
+        0 & 1\\
+        1 & 0
+        \end{pmatrix}=\begin{pmatrix}
+        -i & 0\\
+        0 & i
+        \end{pmatrix} = - \sigma_1\sigma_2\\~\\
+        \alpha = 1, \beta = 3\\
+        \sigma_1\sigma_3 = \begin{pmatrix}
+        0 & 1\\
+        1 & 0
+        \end{pmatrix}\begin{pmatrix}
+        1 & 0\\
+        0 & -1
+        \end{pmatrix} = \begin{pmatrix}
+        0 & -1\\
+        1 & 0
+        \end{pmatrix}\\
+        \sigma_3\sigma_1 = \begin{pmatrix}
+        1 & 0\\
+        0 & -1
+        \end{pmatrix}\begin{pmatrix}
+        0 & 1\\
+        1 & 0
+        \end{pmatrix}=\begin{pmatrix}
+        0 & 1\\
+        -1 & 0
+        \end{pmatrix} = - \sigma_1\sigma_3\\~\\
+        \alpha = 2, \beta = 3\\
+        \sigma_2\sigma_3 = \begin{pmatrix}
+        0 & -i\\
+        i & 0
+        \end{pmatrix}\begin{pmatrix}
+        1 & 0\\
+        0 & -1
+        \end{pmatrix} = \begin{pmatrix}
+        i & 0\\
+        0 & -i
+        \end{pmatrix}\\
+        \sigma_3\sigma_2 = \begin{pmatrix}
+        1 & 0\\
+        0 & -1
+        \end{pmatrix}\begin{pmatrix}
+        0 & -i\\
+        i & 0
+        \end{pmatrix}=\begin{pmatrix}
+        -i & 0\\
+        0 & i
+        \end{pmatrix} = - \sigma_2\sigma_3
+        \end{gather*}
+    \item \begin{gather*}
+        g=X_1, g'=Z_1\\
+        [g,g'] = X_1 . Z_1 \\
+        [g',g] = Z_1 . X_1 = - X_1 . Z_1 = AntiCommute\\~\\
+        g=X_1, g'=Z_3 \\
+        [g,g'] = (X_1 \otimes I \otimes I) . (I \otimes I \otimes Z_3 ) = X\otimes I \otimes Z\\
+        [g',g] = (I \otimes I \otimes Z_3 ) . (X_1 \otimes I \otimes I) =  X \otimes I \otimes Z = Commute \\~\\
+        g=X_1X_2X_3, g'=Y_2Z_3\\
+        [g,g'] = (X_1 \otimes X_2 \otimes X_3) . (I \otimes Y_2 \otimes Z_3 ) = X \otimes XY \otimes XZ\\
+        [g',g] = (I \otimes Y_2 \otimes Z_3 ).(X_1 \otimes X_2 \otimes X_3)  = X \otimes YX \otimes ZX = X \otimes -XY \otimes -XZ =  X \otimes XY \otimes XZ\\
+        = Commute
+    \end{gather*}   
+    \item \begin{gather*}
+        g_1 = X_1Z_2Z_3X_4\\
+        g_2 =  X_2Z_3Z_4X_5\\
+        g_3 = X_1X_3Z_4Z_5\\
+        g_4 = Z_1X_3X_4Z_5\\
+    \end{gather*}\\~\\
+    Check Matrix =
+    $\begin{pmatrix}
+    r(g_1)\\
+    r(g_2)\\
+    r(g_3)\\
+    r(g_4)\\
+    \end{pmatrix} = \begin{pmatrix}
+    1 & 0 & 0 & 1 & 0 & 0 & 1 & 1 & 0 & 0 \\
+    0 & 1 & 0 & 0 & 1 & 0 & 0 & 1 & 1 & 0 \\
+    1 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 1 & 1 \\
+    0 & 1 & 0 & 1 & 0 & 1 & 0 & 0 & 0 & 1 \\
+    \end{pmatrix}$
+\item Given $r(X)= \begin{pmatrix}
+    1 & 0
+\end{pmatrix},$ $r(Y)= \begin{pmatrix}
+    1 & 1
+\end{pmatrix},$ $r(Z)= \begin{pmatrix}
+    0 & 1
+\end{pmatrix},$ \& $r(I)= \begin{pmatrix}
+    0 & 0
+\end{pmatrix},$ \\~\\
+1. Consider $g=I$ \& $g'=I$ \\
+$I \times I = I$ \& $I + I = I$ (Following Modulo 2 Addition)
+\begin{center}
+    Hence $r(I) + r(I) = r(I \times I)$
+\end{center}
+2. Consider $g=X$ \& $g'=X$ \\
+$X \times X = I$ \& $r(X) + r(X) = \begin{pmatrix}
+    1 & 0
+\end{pmatrix} + \begin{pmatrix}
+    1 & 0
+\end{pmatrix} = \begin{pmatrix}
+    0 & 0
+\end{pmatrix}$
+\begin{center}
+    Hence $r(X)+r(X) = r(X \times X)$
+\end{center}
+Similarly $Y \times Y =I$ \& $Z \times Z =I$\\ 
+Hence  $r(Y) +r(Y) = r(Y \times Y)$ \& $r(Z) +r(Z) = r(Z \times Z)$\\~\\
+3. Consider $g=X$ \& $g'=Y$ \\
+$X \times Y = iZ = Z$ (Absorbing Prefactor Term) \\
+$r(X) +r(Y) = \begin{pmatrix}
+1 & 0 
+\end{pmatrix}+\begin{pmatrix}
+    1 & 1
+\end{pmatrix} = \begin{pmatrix}
+    0 & 1
+\end{pmatrix} = r(Z)$
+\begin{center}
+    Hence $r(X)+r(Y)=r(X\times Y)$
+\end{center} 
+4. Consider $g=Y$ \& $g'=Z$ \\
+$Y \times Z = iX = X$ (Absorbing Prefactor Term) \\
+$r(Y)+r(Z) = \begin{pmatrix}
+    1 & 1
+\end{pmatrix}+\begin{pmatrix}
+    0 & 1
+\end{pmatrix}=\begin{pmatrix}
+    1 & 0
+\end{pmatrix}=r(X)$ 
+\begin{center}
+    Hence $r(Y) +r(Z) = r(Y \times Z)$
+\end{center}
+5. Consider $g=X$ \& $g'=Z$ \\
+$X \times Z = -iY =Y$ (Absorbing Prefactor Term) \\
+$r(X)+r(Z) = \begin{pmatrix}
+    1 & 0 
+\end{pmatrix} + \begin{pmatrix}
+    0 & 1
+\end{pmatrix} = \begin{pmatrix}
+    1 & 1
+\end{pmatrix} = r(Y)$
+\begin{center}
+    Hence $r(X) + r(Z) = r(X \times Z)$
+\end{center}
+From the above results we can conclude $r(g) + r(g') = r(gg')$ $\forall$ $g,g'$ $\epsilon$ $G_{n}$ \\~\\
+
+\item \underline{Case 1}: Consider $g=g'$ \\
+Let $g=g'=I$ \hspace{1.7mm}$\implies \begin{pmatrix}
+    0 & 0
+\end{pmatrix}\begin{pmatrix}
+    0 & 1 \\
+    1 & 0 \\
+\end{pmatrix}\begin{pmatrix}
+    0 \\
+    0 \\
+\end{pmatrix} = 0 \equiv 0$ mod 2 \\
+Let $g=g'=X$ $\implies \begin{pmatrix}
+    1 & 0 
+\end{pmatrix}\begin{pmatrix}
+    0 & 1\\
+    1 & 0\\
+\end{pmatrix}\begin{pmatrix}
+    1 \\
+    0 \\
+\end{pmatrix} = 0 \equiv 0$ mod 2 \\
+Let $g=g'=Y$ $\implies \begin{pmatrix}
+    1 & 1 
+\end{pmatrix}\begin{pmatrix}
+    0 & 1 \\
+    1 & 0 \\
+\end{pmatrix}\begin{pmatrix}
+    1 \\
+    1 \\
+\end{pmatrix} = 2 \equiv 0$ mod 2 \\
+Let $g=g'=Z$ $\implies \begin{pmatrix}
+    0 & 1 
+\end{pmatrix}\begin{pmatrix}
+    0 & 1 \\
+    1 & 0 \\
+\end{pmatrix}\begin{pmatrix}
+    0 \\
+    1 \\
+\end{pmatrix}= 0 \equiv 0$ mod 2 \pagebreak \\
+\underline{Case 2}: Consider $g\neq g'$\\
+Let $g=X$ \& $g'=Y$ $\implies \begin{pmatrix}
+    1 & 0 
+\end{pmatrix}\begin{pmatrix}
+    0 & 1\\
+    1 & 0 \\
+\end{pmatrix}\begin{pmatrix}
+    1 \\
+    1 \\
+\end{pmatrix}= \begin{pmatrix}
+    0 & 1
+\end{pmatrix}\begin{pmatrix}
+    1 \\
+    1
+\end{pmatrix} = 1 \equiv 1$ mod 2\\
+Let $g=X$ \& $g'=Z$ $\implies \begin{pmatrix}
+    1 & 0
+\end{pmatrix}\begin{pmatrix}
+    0 & 1 \\
+    1 & 0 \\
+\end{pmatrix}\begin{pmatrix}
+    0 \\
+    1 \\
+\end{pmatrix} = \begin{pmatrix}
+    0 & 1
+\end{pmatrix}\begin{pmatrix}
+    0 \\
+    1
+\end{pmatrix} = 1 \equiv 1$ mod 2 \\
+Let $g=Y$ \& $g'=Z$ \hspace{0.2mm}$\implies \begin{pmatrix}
+    1 & 1 
+\end{pmatrix}\begin{pmatrix}
+    0 & 1 \\
+    1 & 0 \\
+\end{pmatrix}\begin{pmatrix}
+    0 \\
+    1
+\end{pmatrix}=\begin{pmatrix}
+    1 & 1
+\end{pmatrix}\begin{pmatrix}
+    0 \\
+    1
+\end{pmatrix}=1 \equiv 1$ mod 2 \\
+Let $g=Y$ \& $g'=X$ $\implies \begin{pmatrix}
+    1 & 1
+\end{pmatrix}\begin{pmatrix}
+    0 & 1 \\
+    1 & 0 \\
+\end{pmatrix}\begin{pmatrix}
+    1 \\
+    0 \\
+\end{pmatrix} = \begin{pmatrix}
+    1 & 1 
+\end{pmatrix}\begin{pmatrix}
+    1 \\
+    0
+\end{pmatrix}= 1 \equiv 1$ mod 2\\
+Let $g=Z$ \& $g'=X$ $\implies \begin{pmatrix}
+    0 & 1
+\end{pmatrix}\begin{pmatrix}
+    0 & 1\\
+    1 & 0 \\
+\end{pmatrix}\begin{pmatrix}
+    1 \\
+    0
+\end{pmatrix}= \begin{pmatrix}
+    1 & 0
+\end{pmatrix}\begin{pmatrix}
+    1 \\
+    0
+\end{pmatrix} = 1 \equiv 1$ mod 2 \\
+Let $g=Z$ \& $g'=Y$ $\implies \begin{pmatrix}
+    0 & 1 
+\end{pmatrix}\begin{pmatrix}
+    0 & 1 \\
+    1 & 0 \\
+\end{pmatrix}\begin{pmatrix}
+    1 \\
+    1
+\end{pmatrix} = \begin{pmatrix}
+    1 & 0
+\end{pmatrix}\begin{pmatrix}
+    1 \\
+    1
+\end{pmatrix}= 1 \equiv 1$ mod 2 \\~\\
+Verifying results for \say{Case 2} \\
+$XY = \begin{pmatrix}
+    i & 0\\
+    0 & -i \\
+\end{pmatrix}$, while $YX = \begin{pmatrix}
+    -i & 0 \\
+    0 & i \\
+\end{pmatrix}$ \hspace{2mm}$\implies [X, Y] \neq 0$ \\
+$XZ = \begin{pmatrix}
+    0 & -1\\
+    1 & 0 \\
+\end{pmatrix}$, while $ZX = \begin{pmatrix}
+    0 & 1 \\
+    -1 & 0 \\
+\end{pmatrix}$ \hspace{1mm}$\implies [X, Z] \neq 0$ \\
+$YZ = \begin{pmatrix}
+    0 & i \\
+    i & 0 \\
+\end{pmatrix}$, \hspace{2mm} while $ZY = \begin{pmatrix}
+    0 & -i \\
+    -i & 0 \\
+\end{pmatrix}$ $\implies [Y, Z] \neq 0$ 
+
+\end{enumerate}
+
+\end{document}
